@@ -4,10 +4,13 @@ import java.util.List;
 
 import javax.persistence.Query;
 
+import org.springframework.stereotype.Repository;
+
 import ttps.spring.interfaces.UsuarioDAO;
 import ttps.spring.model.Rol;
 import ttps.spring.model.Usuario;
 
+@Repository
 public class UsuarioDAOHibernateJPA extends GenericDAOHibernateJPA<Usuario> implements UsuarioDAO {
 
 	public UsuarioDAOHibernateJPA() {

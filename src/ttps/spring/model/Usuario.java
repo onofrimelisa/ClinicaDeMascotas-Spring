@@ -2,11 +2,23 @@ package ttps.spring.model;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties( { "mascotas", "mascotas_atendidas", "roles", "recordatorios", "eventos" } )
 @Entity
 public class Usuario {
 
@@ -34,9 +46,11 @@ public class Usuario {
 	@OneToMany(mappedBy="duenio")
 	List<Mascota> mascotas;
 	
+
 	@OneToMany(mappedBy="veterinario")
 	List<Mascota> mascotas_atendidas;
 	
+
 	@ManyToMany
 	@JoinTable(	name="Usuario_tiene_rol",
 				joinColumns=@JoinColumn(name="id_usuario",
@@ -45,12 +59,16 @@ public class Usuario {
 											   referencedColumnName="id"))
 	List<Rol> roles;
 	
+	
+	
 	@OneToMany(mappedBy="creador")
-	@LazyCollection(LazyCollectionOption.FALSE)
+	@LazyCollection(LazyCollectionOption.TRUE)
 	List<Recordatorio> recordatorios;	
 	
+	
+	
 	@OneToMany(mappedBy="usuario_creador")
-	@LazyCollection(LazyCollectionOption.FALSE)
+	@LazyCollection(LazyCollectionOption.TRUE)
 	List<Evento> eventos;
 	
 	

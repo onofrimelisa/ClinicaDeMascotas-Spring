@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import ttps.spring.interfaces.GenericDAO;
 
 @Repository
-@Transactional
 public class GenericDAOHibernateJPA<T> implements GenericDAO<T> {
 	
 	private EntityManager entityManager;

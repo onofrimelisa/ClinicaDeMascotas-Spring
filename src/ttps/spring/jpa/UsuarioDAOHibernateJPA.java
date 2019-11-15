@@ -10,7 +10,7 @@ import ttps.spring.interfaces.UsuarioDAO;
 import ttps.spring.model.Rol;
 import ttps.spring.model.Usuario;
 
-@Repository
+@Repository("usuarioDAO")
 public class UsuarioDAOHibernateJPA extends GenericDAOHibernateJPA<Usuario> implements UsuarioDAO {
 
 	public UsuarioDAOHibernateJPA() {

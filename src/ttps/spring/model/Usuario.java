@@ -52,6 +52,7 @@ public class Usuario {
 	
 
 	@ManyToMany
+	@LazyCollection(LazyCollectionOption.TRUE)
 	@JoinTable(	name="Usuario_tiene_rol",
 				joinColumns=@JoinColumn(name="id_usuario",
 										referencedColumnName="id"),
@@ -103,9 +104,16 @@ public class Usuario {
 		this.roles = new ArrayList<Rol>();
 		this.eventos = new ArrayList<Evento>();
 	}
-
+	
 
 	
+	public Usuario(String email, String password) {
+		super();
+		this.email = email;
+		this.password = password;
+	}
+
+
 	public Long getId() {
 		return id;
 	}

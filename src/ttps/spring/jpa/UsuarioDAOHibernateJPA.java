@@ -21,7 +21,7 @@ public class UsuarioDAOHibernateJPA extends GenericDAOHibernateJPA<Usuario> impl
 	public List<Usuario> recuperarPorRol(Rol rol, String columnOrder) {
 		
 		Query consulta = this.getEntityManager()
-							.createQuery("FROM Usuario AS u"
+							.createQuery("SELECT u FROM Usuario AS u"
 										+" INNER JOIN u.roles AS r"
 										+" WHERE r.id = " + rol.getId()
 										+" ORDER BY " + columnOrder);
@@ -45,4 +45,26 @@ public class UsuarioDAOHibernateJPA extends GenericDAOHibernateJPA<Usuario> impl
 		
 		return resultado;
 	}
+	
+	
+	@Override
+	public Usuario autenticar(String email, String password) {
+		Query consulta = this.getEntityManager()
+				.createQuery("FROM Usuario u"
+							+" WHERE u.email = :email"
+							+" AND u.password = :password");
+
+		consulta.setParameter("email", email);
+		consulta.setParameter("password", password);
+		
+		try {
+			return (Usuario)consulta.getSingleResult();
+		}
+		catch(Exception e) {
+			return null;
+		}
+		
+	}
+	
+	
 }

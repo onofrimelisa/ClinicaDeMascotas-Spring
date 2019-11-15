@@ -1,6 +1,8 @@
 package ttps.spring.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,25 +24,35 @@ public class UsuarioController {
 	UsuarioService usuarioService;
 	
 	@GetMapping
-	public ResponseEntity<List<Usuario>> recuperarTodos() {
+	public ResponseEntity<Map<String,Object>> recuperarTodos() {
 		List<Usuario> usuarios = usuarioService.recuperarTodos();
+		HashMap<String, Object> res = new HashMap<>();
 		
 		if(usuarios.isEmpty()) {
-			return new ResponseEntity<List<Usuario>>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<Map<String,Object>>(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<List<Usuario>>(usuarios, HttpStatus.OK);
+		
+		res.put("total", usuarios.size());
+		res.put("usuarios", usuarios);
+		
+		return new ResponseEntity<Map<String,Object>>(res, HttpStatus.OK);
 	}
 	
 	
 	@GetMapping("/{rol}")
-	public ResponseEntity<List<Usuario>> recuperarPorRol( @PathVariable("rol") String rol){
+	public ResponseEntity<Map<String,Object>> recuperarPorRol( @PathVariable("rol") String rol){
 		
 		List<Usuario> usuarios = usuarioService.recuperarPorRol(rol);
 		
 		if(usuarios.isEmpty()) {
-			return new ResponseEntity<List<Usuario>>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<Map<String,Object>>(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<List<Usuario>>(usuarios, HttpStatus.OK);
+		
+		HashMap<String, Object> res = new HashMap<>();
+		res.put("total", usuarios.size());
+		res.put("usuarios", usuarios);
+		
+		return new ResponseEntity<Map<String,Object>>(res, HttpStatus.OK);
 	}
 	
 }

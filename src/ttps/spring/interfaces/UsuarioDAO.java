@@ -9,4 +9,6 @@ public interface UsuarioDAO extends GenericDAO<Usuario> {
 	public List<Usuario> recuperarPorRol(Rol rol, String columnOrder);	
 	
 	public Usuario recuperarPorEmail(String email);
+	
+	public Usuario autenticar(String email, String password);
 }

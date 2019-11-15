@@ -42,7 +42,7 @@ public class UsuarioService {
 		
 		Rol r = rolDAO.recuperarPorNombre(rol);
 		
-		return this.usuarioDAO.recuperarPorRol(r, "id");
+		return this.usuarioDAO.recuperarPorRol(r, "apellido");
 		
 	}
 	

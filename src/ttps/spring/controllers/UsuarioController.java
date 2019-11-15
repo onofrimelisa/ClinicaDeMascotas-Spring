@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,4 +30,17 @@ public class UsuarioController {
 		}
 		return new ResponseEntity<List<Usuario>>(usuarios, HttpStatus.OK);
 	}
+	
+	
+	@GetMapping("/{rol}")
+	public ResponseEntity<List<Usuario>> recuperarPorRol( @PathVariable("rol") String rol){
+		
+		List<Usuario> usuarios = usuarioService.recuperarPorRol(rol);
+		
+		if(usuarios.isEmpty()) {
+			return new ResponseEntity<List<Usuario>>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<Usuario>>(usuarios, HttpStatus.OK);
+	}
+	
 }

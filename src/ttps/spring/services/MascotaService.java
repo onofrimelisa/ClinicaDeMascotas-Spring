@@ -1,12 +1,12 @@
 package ttps.spring.services;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
 import ttps.spring.jpa.MascotaDAOHibernateJPA;
@@ -40,7 +40,10 @@ public class MascotaService {
 		
 		List<MascotaDTO> mascotasDTO = new ArrayList<MascotaDTO>();
 		
-		Usuario duenio = usuarioDAO.recuperarPorId(u);
+		Usuario duenio = usuarioDAO.recuperar(u);
+		if(duenio == null) {
+			return null;
+		}
 
 		List<Mascota> mascotas = duenio.getMascotas();
 		
@@ -49,8 +52,7 @@ public class MascotaService {
 		for (Mascota m : mascotas) {
 			mDTO = new MascotaDTO(m.getNombre(), m.getFecha_nacimiento().toString(), m.getEspecie(), m.getRaza(), m.getSexo(), m.getColor(), m.getSenias());
 			mDTO.setId(m.getId());
-			//seteo el link a su duenio
-			mDTO.setDuenio("ttps-spring/usuario/" + m.getDuenio().getId());
+			//seteo el link a su veterinario
 			if( m.getVeterinario() != null) {
 				mDTO.setVeterinario("ttps-spring/usuario/" + m.getVeterinario().getId());				
 			}
@@ -64,10 +66,29 @@ public class MascotaService {
 	
 	@Transactional
 	public MascotaDTO agregarMascota(MascotaDTO mascota) {
-		System.out.print(mascota.getDuenio());
+		System.out.print(Long.valueOf(mascota.getDuenio()));
 //		chequeo si existe el usuario
-//		agrego la mascota para ese usuario agregarMascotaDuenio(duenio)
-//		la devuelvo
+		
+		Usuario duenio = this.usuarioDAO.recuperar(Long.valueOf(mascota.getDuenio()));
+		if (duenio == null) {
+			return null;
+		}
+		
+		Mascota nuevaMascota = new Mascota(mascota.getNombre(), 
+										   Date.valueOf(mascota.getFecha_nacimiento()), 
+										   mascota.getEspecie(), 
+										   mascota.getRaza(), 
+										   mascota.getSexo(), 
+										   mascota.getColor(), 
+										   mascota.getSenias(), 
+										   duenio);
+		
+		nuevaMascota = this.mascotaDAO.persistir( nuevaMascota );
+		duenio.agregarMascota(nuevaMascota);
+		duenio = this.usuarioDAO.actualizar(duenio);
+			
+//		seteo el nuevo id
+		mascota.setId(nuevaMascota.getId());
 		return mascota;
 	}
 

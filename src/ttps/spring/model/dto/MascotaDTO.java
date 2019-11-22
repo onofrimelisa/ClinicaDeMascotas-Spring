@@ -15,8 +15,7 @@ public class MascotaDTO implements Serializable{
 	
 	private String duenio;
 	private String veterinario;
-	private String ficha_publica;
-	private String eventos;
+
 	
 //	CONSTRUCTOR con campos obligatorios
 	
@@ -37,7 +36,7 @@ public class MascotaDTO implements Serializable{
 	}
 	
 	public MascotaDTO(String nombre, String fecha_nacimiento, String especie, String raza, String sexo,
-			String color, String senias, String duenio, String ficha_publica) {
+			String color, String senias, String duenio) {
 		super();
 		this.nombre = nombre;
 		this.fecha_nacimiento = fecha_nacimiento;
@@ -47,7 +46,6 @@ public class MascotaDTO implements Serializable{
 		this.color = color;
 		this.senias = senias;
 		this.duenio = duenio;
-		this.ficha_publica = ficha_publica;
 	}
 	
 //	GETTERS Y SETTERS
@@ -112,18 +110,5 @@ public class MascotaDTO implements Serializable{
 	public void setVeterinario(String veterinario) {
 		this.veterinario = veterinario;
 	}
-	public String getFicha_publica() {
-		return ficha_publica;
-	}
-	public void setFicha_publica(String ficha_publica) {
-		this.ficha_publica = ficha_publica;
-	}
-	public String getEventos() {
-		return eventos;
-	}
-	public void setEventos(String eventos) {
-		this.eventos = eventos;
-	}
 	
-
 }

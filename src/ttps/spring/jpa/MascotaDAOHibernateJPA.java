@@ -17,10 +17,5 @@ public class MascotaDAOHibernateJPA extends GenericDAOHibernateJPA<Mascota> impl
 		super(Mascota.class);
 	}
 
-//	@Override
-//	public Mascota agregarMascotaDuenio(Usuario u) {
-//		
-//		
-//	}
 
 }

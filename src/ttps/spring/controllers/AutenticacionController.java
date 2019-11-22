@@ -39,9 +39,13 @@ public class AutenticacionController {
 		HttpHeaders responseHeaders = new HttpHeaders();
 	    responseHeaders.set("token", "1234");
 	    
-	    res.put("usuario", usuario);
+	    res.put("id", usuario.getId());
+	    res.put("nombre", usuario.getNombre());
+	    res.put("apellido", usuario.getApellido());
+	    res.put("activo", usuario.getActivo());
+	    res.put("roles", usuario.getRoles());
 		
-		return new ResponseEntity<Map<String,Object>>(res, HttpStatus.OK);
+		return new ResponseEntity<Map<String,Object>>(res, responseHeaders, HttpStatus.OK);
 		
 	}
 	

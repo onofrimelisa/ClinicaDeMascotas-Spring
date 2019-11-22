@@ -98,11 +98,6 @@ public class UsuarioService {
 			uDTO.setNombre_consultorio(u.getNombre_consultorio());
 		}
 		
-		uDTO.setMascotas("ttps-spring/mascota/duenio/" + uDTO.getId());
-		uDTO.setMascotas_atendidas("ttps-spring/mascota/veterinario/" + uDTO.getId());
-		uDTO.setEventos("ttps-spring/usuario/" + uDTO.getId() + "/evento");
-		uDTO.setRecordatorios("ttps-spring/usuario/" + uDTO.getId() + "/recordatorio");
-		
 		return uDTO;
 	}
 	

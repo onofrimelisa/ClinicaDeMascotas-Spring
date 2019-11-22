@@ -39,7 +39,7 @@ public class MascotaController {
 		
 		List<MascotaDTO> mascotas = mascotaService.recuperarPorDuenio(duenio);
 		
-		if (mascotas.isEmpty()) {
+		if (mascotas == null || mascotas.isEmpty()) {
 			return new ResponseEntity<Map<String, Object>>(HttpStatus.NO_CONTENT);
 		}
 		
@@ -62,14 +62,13 @@ public class MascotaController {
 		
 		MascotaDTO mascotaNueva = this.mascotaService.agregarMascota(mascota);
 		
-		if (mascotaNueva != null) {
-			res.put("mascota", mascotaNueva);
-			return new ResponseEntity<Map<String, Object>>(res, HttpStatus.OK);
+		if (mascotaNueva == null) {
+			return new ResponseEntity<Map<String, Object>>(res, HttpStatus.BAD_REQUEST);
 		}
 		
-		//no la pudo agregar
+		res.put("mascota", mascotaNueva);
+		return new ResponseEntity<Map<String, Object>>(res, HttpStatus.OK);
 		
-		return new ResponseEntity<Map<String, Object>>(res, HttpStatus.BAD_REQUEST);
 		
 	}
 }

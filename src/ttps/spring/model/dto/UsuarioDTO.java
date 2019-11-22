@@ -16,18 +16,12 @@ public class UsuarioDTO implements Serializable {
 	private String telefono;
 	private Boolean activo;	
 	private List<Rol> roles;	
-	private String eventos;
-	private String recordatorios;
 	
 //	veterinario
 	private String nombre_consultorio;
 	private String domicilio_consultorio;
 	private String matricula;
 
-	
-//	mascotas
-	private String mascotas;
-	private String mascotas_atendidas;
 	
 	
 //	Constructor para el show
@@ -83,27 +77,6 @@ public class UsuarioDTO implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	
-
-	public String getEventos() {
-		return eventos;
-	}
-
-
-	public void setEventos(String eventos) {
-		this.eventos = eventos;
-	}
-
-
-	public String getRecordatorios() {
-		return recordatorios;
-	}
-
-
-	public void setRecordatorios(String recordatorios) {
-		this.recordatorios = recordatorios;
 	}
 
 
@@ -176,29 +149,5 @@ public class UsuarioDTO implements Serializable {
 		this.matricula = matricula;
 	}
 
-
-	public String getMascotas() {
-		return mascotas;
-	}
-
-
-	public void setMascotas(String mascotas) {
-		this.mascotas = mascotas;
-	}
-
-
-	public String getMascotas_atendidas() {
-		return mascotas_atendidas;
-	}
-
-
-	public void setMascotas_atendidas(String mascotas_atendidas) {
-		this.mascotas_atendidas = mascotas_atendidas;
-	}
-	
-	
-	
-	
-	
 	
 }

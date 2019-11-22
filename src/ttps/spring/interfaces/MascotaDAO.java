@@ -7,5 +7,4 @@ import ttps.spring.model.Usuario;
 
 public interface MascotaDAO extends GenericDAO<Mascota> {
 
-//		public Mascota agregarMascotaDuenio (Usuario u);
 }

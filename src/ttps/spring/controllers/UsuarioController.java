@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ttps.spring.model.Usuario;
+import ttps.spring.model.dto.UsuarioDTO;
 import ttps.spring.services.UsuarioService;
 
 @RestController
@@ -25,7 +26,7 @@ public class UsuarioController {
 	
 	@GetMapping
 	public ResponseEntity<Map<String,Object>> recuperarTodos() {
-		List<Usuario> usuarios = usuarioService.recuperarTodos();
+		List<UsuarioDTO> usuarios = usuarioService.recuperarTodos();
 		HashMap<String, Object> res = new HashMap<>();
 		
 		if(usuarios.isEmpty()) {

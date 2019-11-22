@@ -47,8 +47,8 @@ public class MascotaService {
 		MascotaDTO mDTO;
 		
 		for (Mascota m : mascotas) {
-			mDTO = new MascotaDTO(m.getId(), m.getNombre(), m.getFecha_nacimiento().toString(), m.getEspecie(), m.getRaza(), m.getSexo(), m.getColor(), m.getSenias());
-
+			mDTO = new MascotaDTO(m.getNombre(), m.getFecha_nacimiento().toString(), m.getEspecie(), m.getRaza(), m.getSexo(), m.getColor(), m.getSenias());
+			mDTO.setId(m.getId());
 			//seteo el link a su duenio
 			mDTO.setDuenio("ttps-spring/usuario/" + m.getDuenio().getId());
 			if( m.getVeterinario() != null) {
@@ -60,6 +60,15 @@ public class MascotaService {
 		}
 		
 		return mascotasDTO;
+	}
+	
+	@Transactional
+	public MascotaDTO agregarMascota(MascotaDTO mascota) {
+		System.out.print(mascota.getDuenio());
+//		chequeo si existe el usuario
+//		agrego la mascota para ese usuario agregarMascotaDuenio(duenio)
+//		la devuelvo
+		return mascota;
 	}
 
 }

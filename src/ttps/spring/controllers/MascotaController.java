@@ -10,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +20,7 @@ import ttps.spring.model.dto.MascotaDTO;
 import ttps.spring.services.MascotaService;
 
 @RestController
-@RequestMapping(value = "/mascota", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/mascota", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 public class MascotaController {
 
 	@Autowired
@@ -30,7 +32,7 @@ public class MascotaController {
 		System.out.print(token);
 		HashMap<String, Object> res = new HashMap();
 		
-		if (!token.equals("1234")) {
+		if (token == null || !token.equals("1234")) {
 			res.put("error", "Token inválido");
 			return new ResponseEntity<Map<String, Object>>(res, HttpStatus.BAD_REQUEST);
 		}
@@ -45,6 +47,29 @@ public class MascotaController {
 		res.put("mascotas", mascotas);
 		
 		return new ResponseEntity<Map<String, Object>>(res, HttpStatus.OK);
+		
+	}
+	
+	@PostMapping
+	public ResponseEntity<Map<String, Object>> agregarMascota(@RequestBody MascotaDTO mascota, @RequestHeader(value = "token", required = false)String token){
+//		CHEQUEO SI ESTÁ LOGGEADO
+		HashMap<String, Object> res = new HashMap();
+		
+		if (token == null || !token.equals("1234")) {
+			res.put("error", "Token inválido");
+			return new ResponseEntity<Map<String, Object>>(res, HttpStatus.BAD_REQUEST);
+		}
+		
+		MascotaDTO mascotaNueva = this.mascotaService.agregarMascota(mascota);
+		
+		if (mascotaNueva != null) {
+			res.put("mascota", mascotaNueva);
+			return new ResponseEntity<Map<String, Object>>(res, HttpStatus.OK);
+		}
+		
+		//no la pudo agregar
+		
+		return new ResponseEntity<Map<String, Object>>(res, HttpStatus.BAD_REQUEST);
 		
 	}
 }

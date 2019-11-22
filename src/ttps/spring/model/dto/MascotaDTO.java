@@ -24,10 +24,9 @@ public class MascotaDTO implements Serializable{
 		
 	}
 	
-	public MascotaDTO(Long id, String nombre, String fecha_nacimiento, String especie, String raza, String sexo,
+	public MascotaDTO(String nombre, String fecha_nacimiento, String especie, String raza, String sexo,
 			String color, String senias) {
 		super();
-		this.id = id;
 		this.nombre = nombre;
 		this.fecha_nacimiento = fecha_nacimiento;
 		this.especie = especie;
@@ -35,6 +34,20 @@ public class MascotaDTO implements Serializable{
 		this.sexo = sexo;
 		this.color = color;
 		this.senias = senias;
+	}
+	
+	public MascotaDTO(String nombre, String fecha_nacimiento, String especie, String raza, String sexo,
+			String color, String senias, String duenio, String ficha_publica) {
+		super();
+		this.nombre = nombre;
+		this.fecha_nacimiento = fecha_nacimiento;
+		this.especie = especie;
+		this.raza = raza;
+		this.sexo = sexo;
+		this.color = color;
+		this.senias = senias;
+		this.duenio = duenio;
+		this.ficha_publica = ficha_publica;
 	}
 	
 //	GETTERS Y SETTERS

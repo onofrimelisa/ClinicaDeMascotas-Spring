@@ -67,7 +67,11 @@ public class UsuarioService {
 	
 	@Transactional
 	public UsuarioDTO recuperar(Long id) {
-		return this.procesarUsuario( this.usuarioDAO.recuperar(id) );
+		Usuario u = this.usuarioDAO.recuperar(id);
+		if (u != null) {
+			return this.procesarUsuario( u );			
+		}
+		return null;
 	}
 	
 	

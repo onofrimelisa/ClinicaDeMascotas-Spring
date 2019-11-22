@@ -30,7 +30,7 @@ public class UsuarioController {
 		List<UsuarioDTO> usuarios = usuarioService.recuperarTodos();
 		HashMap<String, Object> res = new HashMap<>();
 		
-		if (!token.equals("1234")) {
+		if (token == null || !token.equals("1234")) {
 			res.put("error", "Token inválido");
 			return new ResponseEntity<Map<String, Object>>(res, HttpStatus.BAD_REQUEST);
 		}
@@ -47,20 +47,45 @@ public class UsuarioController {
 	}
 	
 	
-	@GetMapping("/{rol}")
+	@GetMapping("/rol/{rol}")
 	public ResponseEntity<Map<String,Object>> recuperarPorRol( @PathVariable("rol") String rol, @RequestHeader(value = "token", required = false)String token){
 		
 		List<UsuarioDTO> usuarios = usuarioService.recuperarPorRol(rol);
+		HashMap<String, Object> res = new HashMap<>();
+		
+		if (token == null || !token.equals("1234")) {
+			res.put("error", "Token inválido");
+			return new ResponseEntity<Map<String, Object>>(res, HttpStatus.BAD_REQUEST);
+		}
 		
 		if(usuarios.isEmpty()) {
 			return new ResponseEntity<Map<String,Object>>(HttpStatus.NO_CONTENT);
 		}
 		
-		HashMap<String, Object> res = new HashMap<>();
 		res.put("total", usuarios.size());
 		res.put("usuarios", usuarios);
 		
 		return new ResponseEntity<Map<String,Object>>(res, HttpStatus.OK);
 	}
+	
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<Map<String, Object>> recuperar( @PathVariable("id") Long id, @RequestHeader(value = "token", required = false)String token){
+		
+		UsuarioDTO usuario = usuarioService.recuperar(id);
+		HashMap<String, Object> res = new HashMap<>();
+		
+		if(usuario == null) {
+			return new ResponseEntity<Map<String,Object>>(HttpStatus.NO_CONTENT);
+		}
+		res.put("usuario", usuario);
+		return new ResponseEntity<Map<String, Object>>(res, HttpStatus.OK);
+	
+	}
+	
+	
+	
+	
+	
 	
 }

@@ -43,7 +43,7 @@ public class UsuarioController {
 	@GetMapping("/{rol}")
 	public ResponseEntity<Map<String,Object>> recuperarPorRol( @PathVariable("rol") String rol){
 		
-		List<Usuario> usuarios = usuarioService.recuperarPorRol(rol);
+		List<UsuarioDTO> usuarios = usuarioService.recuperarPorRol(rol);
 		
 		if(usuarios.isEmpty()) {
 			return new ResponseEntity<Map<String,Object>>(HttpStatus.NO_CONTENT);

@@ -1,7 +1,5 @@
 package ttps.spring.controllers;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ttps.spring.model.Usuario;
+import ttps.spring.model.dto.UsuarioDTO;
 import ttps.spring.model.dto.UsuarioLoginDTO;
 import ttps.spring.services.AutenticacionService;
 
@@ -25,18 +23,18 @@ public class AutenticacionController {
 	AutenticacionService autenticacionService;
 	
 	@PostMapping("/login")
-	public ResponseEntity<Usuario> autenticar( @RequestBody UsuarioLoginDTO uDTO) {
+	public ResponseEntity<UsuarioDTO> autenticar( @RequestBody UsuarioLoginDTO uDTO) {
 		
-		Usuario usuario = autenticacionService.autenticar(uDTO.getEmail(), uDTO.getPassword());
+		UsuarioDTO usuario = autenticacionService.autenticar(uDTO.getEmail(), uDTO.getPassword());
 		
 		if(usuario == null) {
-			return new ResponseEntity<Usuario>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<UsuarioDTO>(HttpStatus.NO_CONTENT);
 		}
 		
 		HttpHeaders responseHeaders = new HttpHeaders();
 	    responseHeaders.set("token", "1234");
 	    
-	    return new ResponseEntity<Usuario>(usuario, responseHeaders ,HttpStatus.OK);
+	    return new ResponseEntity<UsuarioDTO>(usuario, responseHeaders ,HttpStatus.OK);
 		
 	}
 	

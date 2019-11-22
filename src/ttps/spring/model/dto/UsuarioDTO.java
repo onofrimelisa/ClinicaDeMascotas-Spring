@@ -1,7 +1,6 @@
 package ttps.spring.model.dto;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.util.List;
 
 import ttps.spring.model.Rol;
@@ -13,7 +12,7 @@ public class UsuarioDTO implements Serializable {
 	private String apellido;
 	private String nombre;
 	private String email;
-	private Date fecha_nacimiento;
+	private String fecha_nacimiento;
 	private String telefono;
 	private Boolean activo;	
 	private List<Rol> roles;	
@@ -31,8 +30,8 @@ public class UsuarioDTO implements Serializable {
 	private String mascotas_atendidas;
 	
 	
-//	Constructor campos obligatorios
-	public UsuarioDTO(Long id, String apellido, String nombre, String email, Date fecha_nacimiento, String telefono,
+//	Constructor para el show
+	public UsuarioDTO(Long id, String apellido, String nombre, String email, String fecha_nacimiento, String telefono,
 			Boolean activo, List<Rol> roles) {
 		super();
 		this.id = id;
@@ -44,6 +43,7 @@ public class UsuarioDTO implements Serializable {
 		this.activo = activo;
 		this.roles = roles;
 	}
+
 
 
 	public Long getId() {
@@ -107,12 +107,12 @@ public class UsuarioDTO implements Serializable {
 	}
 
 
-	public Date getFecha_nacimiento() {
+	public String getFecha_nacimiento() {
 		return fecha_nacimiento;
 	}
 
 
-	public void setFecha_nacimiento(Date fecha_nacimiento) {
+	public void setFecha_nacimiento(String fecha_nacimiento) {
 		this.fecha_nacimiento = fecha_nacimiento;
 	}
 

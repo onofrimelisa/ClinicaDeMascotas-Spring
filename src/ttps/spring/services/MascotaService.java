@@ -38,18 +38,21 @@ public class MascotaService {
 		
 		List<MascotaDTO> mascotasDTO = new ArrayList<MascotaDTO>();
 		
-;		Usuario duenio = usuarioDAO.recuperarPorId(u);
+		Usuario duenio = usuarioDAO.recuperarPorId(u);
 
-		List<Mascota> mascotas = this.mascotaDAO.recuperarPorDuenio(duenio);
+		//ACA TE MODIFIQUE ESTA PORQUE DECIA mascotaDAO.recuperarPorDuenio(), pero las mascotas ya estaban en el duenio (L
+		List<Mascota> mascotas = duenio.getMascotas();
 		
 		MascotaDTO mDTO;
 		
 		for (Mascota m : mascotas) {
 			mDTO = new MascotaDTO(m.getId(), m.getNombre(), m.getFecha_nacimiento().toString(), m.getEspecie(), m.getRaza(), m.getSexo(), m.getColor(), m.getSenias());
 
-			//seteo el link a su veterinario
-			mDTO.setVeterinario("ttps-spring/usuario/" + m.getVeterinario());
-			mDTO.setDuenio("ttps-spring/usuario/" + m.getDuenio());
+			//seteo el link a su duenio
+			mDTO.setDuenio("ttps-spring/usuario/" + m.getDuenio().getId());
+			if( m.getVeterinario() != null) {
+				mDTO.setVeterinario("ttps-spring/usuario/" + m.getVeterinario().getId());				
+			}
 			
 			//agrego a la lista a devolver
 			mascotasDTO.add(mDTO);

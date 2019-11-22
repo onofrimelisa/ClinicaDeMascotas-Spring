@@ -1,5 +1,6 @@
 package ttps.spring.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -11,6 +12,7 @@ import ttps.spring.jpa.MascotaDAOHibernateJPA;
 import ttps.spring.jpa.UsuarioDAOHibernateJPA;
 import ttps.spring.model.Mascota;
 import ttps.spring.model.Usuario;
+import ttps.spring.model.dto.MascotaDTO;
 
 @Service("mascotaService")
 public class MascotaService {
@@ -32,11 +34,28 @@ public class MascotaService {
 	// METODOS
 	
 	@Transactional
-	public List<Mascota> recuperarPorDuenio(Long u){
+	public List<MascotaDTO> recuperarPorDuenio(Long u){
 		
-		Usuario duenio = usuarioDAO.recuperarPorId(u);
+		List<MascotaDTO> mascotasDTO = new ArrayList<MascotaDTO>();
 		
-		return this.mascotaDAO.recuperarPorDuenio(duenio);
+;		Usuario duenio = usuarioDAO.recuperarPorId(u);
+
+		List<Mascota> mascotas = this.mascotaDAO.recuperarPorDuenio(duenio);
+		
+		MascotaDTO mDTO;
+		
+		for (Mascota m : mascotas) {
+			mDTO = new MascotaDTO(m.getId(), m.getNombre(), m.getFecha_nacimiento().toString(), m.getEspecie(), m.getRaza(), m.getSexo(), m.getColor(), m.getSenias());
+
+			//seteo el link a su veterinario
+			mDTO.setVeterinario("ttps-spring/usuario/" + m.getVeterinario());
+			mDTO.setDuenio("ttps-spring/usuario/" + m.getDuenio());
+			
+			//agrego a la lista a devolver
+			mascotasDTO.add(mDTO);
+		}
+		
+		return mascotasDTO;
 	}
 
 }

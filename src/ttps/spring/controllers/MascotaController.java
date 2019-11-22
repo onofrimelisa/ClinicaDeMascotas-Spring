@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ttps.spring.model.Mascota;
+import ttps.spring.model.dto.MascotaDTO;
 import ttps.spring.services.MascotaService;
 
 @RestController
@@ -27,7 +27,7 @@ public class MascotaController {
 	public ResponseEntity<Map<String, Object>> recuperarPorDuenio( @PathVariable("duenio") Long duenio){
 		
 		
-		List<Mascota> mascotas = mascotaService.recuperarPorDuenio(duenio);
+		List<MascotaDTO> mascotas = mascotaService.recuperarPorDuenio(duenio);
 		
 		if (mascotas.isEmpty()) {
 			return new ResponseEntity<Map<String, Object>>(HttpStatus.NO_CONTENT);

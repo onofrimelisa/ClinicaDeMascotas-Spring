@@ -16,9 +16,10 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@JsonIgnoreProperties( { "mascotas", "mascotas_atendidas", "roles", "recordatorios", "eventos" } )
+@JsonIgnoreProperties( { "mascotas", "mascotas_atendidas", "recordatorios", "eventos" } )
 @Entity
 public class Usuario {
 
@@ -29,6 +30,9 @@ public class Usuario {
 	private String password;
 	private String nombre;
 	private String apellido;
+	
+	@JsonFormat
+    (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	private Date fecha_nacimiento;
 
 	private String telefono;
@@ -52,7 +56,7 @@ public class Usuario {
 	
 
 	@ManyToMany
-	@LazyCollection(LazyCollectionOption.TRUE)
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinTable(	name="Usuario_tiene_rol",
 				joinColumns=@JoinColumn(name="id_usuario",
 										referencedColumnName="id"),

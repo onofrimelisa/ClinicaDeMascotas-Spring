@@ -65,6 +65,20 @@ public class UsuarioDAOHibernateJPA extends GenericDAOHibernateJPA<Usuario> impl
 		}
 		
 	}
+
+	@Override
+	public Usuario recuperarPorId(Long id) {
+
+		Query consulta = this.getEntityManager()
+							.createQuery("FROM Usuario u"
+										+" WHERE u.id = :id");
+		
+		consulta.setParameter("id", id);
+		
+		Usuario resultado = (Usuario)consulta.getSingleResult();
+		
+		return resultado;
+	}
 	
 	
 }

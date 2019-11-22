@@ -6,6 +6,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
 import ttps.spring.jpa.MascotaDAOHibernateJPA;
@@ -36,11 +37,11 @@ public class MascotaService {
 	@Transactional
 	public List<MascotaDTO> recuperarPorDuenio(Long u){
 		
+		
 		List<MascotaDTO> mascotasDTO = new ArrayList<MascotaDTO>();
 		
 		Usuario duenio = usuarioDAO.recuperarPorId(u);
 
-		//ACA TE MODIFIQUE ESTA PORQUE DECIA mascotaDAO.recuperarPorDuenio(), pero las mascotas ya estaban en el duenio (L
 		List<Mascota> mascotas = duenio.getMascotas();
 		
 		MascotaDTO mDTO;

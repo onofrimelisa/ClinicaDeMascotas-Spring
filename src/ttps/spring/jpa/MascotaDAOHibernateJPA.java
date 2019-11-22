@@ -17,15 +17,4 @@ public class MascotaDAOHibernateJPA extends GenericDAOHibernateJPA<Mascota> impl
 		super(Mascota.class);
 	}
 
-	@Override
-	public List<Mascota> recuperarPorDuenio(Usuario u) {
-		Query consulta = this.getEntityManager().createQuery(
-				"FROM Mascota WHERE duenio_id = :id");
-
-		consulta.setParameter("id", u.getId());
-		List<Mascota> resultado = (List<Mascota>) consulta.getResultList();
-
-		return resultado;
-	}
-
 }

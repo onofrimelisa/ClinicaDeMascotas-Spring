@@ -1,5 +1,8 @@
 package ttps.spring.controllers;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,18 +26,22 @@ public class AutenticacionController {
 	AutenticacionService autenticacionService;
 	
 	@PostMapping("/login")
-	public ResponseEntity<UsuarioDTO> autenticar( @RequestBody UsuarioLoginDTO uDTO) {
+	public ResponseEntity<Map<String,Object>> autenticar( @RequestBody UsuarioLoginDTO uDTO) {
 		
 		UsuarioDTO usuario = autenticacionService.autenticar(uDTO.getEmail(), uDTO.getPassword());
+		HashMap<String, Object> res = new HashMap<>();
 		
 		if(usuario == null) {
-			return new ResponseEntity<UsuarioDTO>(HttpStatus.NO_CONTENT);
+			res.put("error", "Credenciales incorrectas");
+			return new ResponseEntity<Map<String,Object>>(res, HttpStatus.BAD_REQUEST);
 		}
 		
 		HttpHeaders responseHeaders = new HttpHeaders();
 	    responseHeaders.set("token", "1234");
 	    
-	    return new ResponseEntity<UsuarioDTO>(usuario, responseHeaders ,HttpStatus.OK);
+	    res.put("usuario", usuario);
+		
+		return new ResponseEntity<Map<String,Object>>(res, HttpStatus.OK);
 		
 	}
 	

@@ -19,21 +19,16 @@ import ttps.spring.model.dto.UsuarioDTO;
 import ttps.spring.services.UsuarioService;
 
 @RestController
-@RequestMapping(value = "/usuario", produces = MediaType.APPLICATION_JSON_VALUE )
+@RequestMapping(value = "/api/usuario", produces = MediaType.APPLICATION_JSON_VALUE )
 public class UsuarioController {
 
 	@Autowired
 	UsuarioService usuarioService;
 	
 	@GetMapping
-	public ResponseEntity<Map<String,Object>> recuperarTodos(@RequestHeader(value = "token", required = false)String token) {
+	public ResponseEntity<Map<String,Object>> recuperarTodos() {
 		List<UsuarioDTO> usuarios = usuarioService.recuperarTodos();
 		HashMap<String, Object> res = new HashMap<>();
-		
-		if (token == null || !token.equals("1234")) {
-			res.put("error", "Token inválido");
-			return new ResponseEntity<Map<String, Object>>(res, HttpStatus.BAD_REQUEST);
-		}
 		
 		if(usuarios.isEmpty()) {
 			return new ResponseEntity<Map<String,Object>>(HttpStatus.NO_CONTENT);
@@ -48,15 +43,10 @@ public class UsuarioController {
 	
 	
 	@GetMapping("/rol/{rol}")
-	public ResponseEntity<Map<String,Object>> recuperarPorRol( @PathVariable("rol") String rol, @RequestHeader(value = "token", required = false)String token){
+	public ResponseEntity<Map<String,Object>> recuperarPorRol( @PathVariable("rol") String rol){
 		
 		List<UsuarioDTO> usuarios = usuarioService.recuperarPorRol(rol);
 		HashMap<String, Object> res = new HashMap<>();
-		
-		if (token == null || !token.equals("1234")) {
-			res.put("error", "Token inválido");
-			return new ResponseEntity<Map<String, Object>>(res, HttpStatus.BAD_REQUEST);
-		}
 		
 		if(usuarios.isEmpty()) {
 			return new ResponseEntity<Map<String,Object>>(HttpStatus.NO_CONTENT);
@@ -70,7 +60,7 @@ public class UsuarioController {
 	
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Map<String, Object>> recuperar( @PathVariable("id") Long id, @RequestHeader(value = "token", required = false)String token){
+	public ResponseEntity<Map<String, Object>> recuperar( @PathVariable("id") Long id){
 		
 		UsuarioDTO usuario = usuarioService.recuperar(id);
 		HashMap<String, Object> res = new HashMap<>();
@@ -82,9 +72,6 @@ public class UsuarioController {
 		return new ResponseEntity<Map<String, Object>>(res, HttpStatus.OK);
 	
 	}
-	
-	
-	
 	
 	
 	

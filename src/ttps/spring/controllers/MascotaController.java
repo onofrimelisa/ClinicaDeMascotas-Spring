@@ -20,22 +20,16 @@ import ttps.spring.model.dto.MascotaDTO;
 import ttps.spring.services.MascotaService;
 
 @RestController
-@RequestMapping(value = "/mascota", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/mascota", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 public class MascotaController {
 
 	@Autowired
 	MascotaService mascotaService;
 	
 	@GetMapping("/duenio/{duenio}")
-	public ResponseEntity<Map<String, Object>> recuperarPorDuenio( @PathVariable("duenio") Long duenio, @RequestHeader(value = "token", required = false)String token){
-//		CHEQUEO SI ESTÁ LOGGEADO
-		System.out.print(token);
+	public ResponseEntity<Map<String, Object>> recuperarPorDuenio( @PathVariable("duenio") Long duenio){
+//		
 		HashMap<String, Object> res = new HashMap();
-		
-		if (token == null || !token.equals("1234")) {
-			res.put("error", "Token inválido");
-			return new ResponseEntity<Map<String, Object>>(res, HttpStatus.BAD_REQUEST);
-		}
 		
 		List<MascotaDTO> mascotas = mascotaService.recuperarPorDuenio(duenio);
 		
@@ -51,15 +45,9 @@ public class MascotaController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Map<String, Object>> agregarMascota(@RequestBody MascotaDTO mascota, @RequestHeader(value = "token", required = false)String token){
-//		CHEQUEO SI ESTÁ LOGGEADO
+	public ResponseEntity<Map<String, Object>> agregarMascota(@RequestBody MascotaDTO mascota){
 		HashMap<String, Object> res = new HashMap();
-		
-		if (token == null || !token.equals("1234")) {
-			res.put("error", "Token inválido");
-			return new ResponseEntity<Map<String, Object>>(res, HttpStatus.BAD_REQUEST);
-		}
-		
+				
 		MascotaDTO mascotaNueva = this.mascotaService.agregarMascota(mascota);
 		
 		if (mascotaNueva == null) {

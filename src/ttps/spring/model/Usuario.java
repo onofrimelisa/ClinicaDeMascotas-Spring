@@ -160,8 +160,14 @@ public class Usuario {
 	}
 
 
-	public Blob getFoto() {
-		return foto;
+	public String getFoto() {
+		try {			
+			String str = new String(foto.getBytes(1l, (int)foto.length()));
+			return str;
+		}
+		catch(Exception e) {
+			return null;
+		}
 	}
 
 

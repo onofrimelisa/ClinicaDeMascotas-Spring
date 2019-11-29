@@ -47,22 +47,13 @@ public class MascotaService {
 
 		List<Mascota> mascotas = duenio.getMascotas();
 		
-		MascotaDTO mDTO;
-		
 		for (Mascota m : mascotas) {
-			mDTO = new MascotaDTO(m.getNombre(), m.getFecha_nacimiento().toString(), m.getEspecie(), m.getRaza(), m.getSexo(), m.getColor(), m.getSenias());
-			mDTO.setId(m.getId());
-			//seteo el link a su veterinario
-			if( m.getVeterinario() != null) {
-				mDTO.setVeterinario("ttps-spring/usuario/" + m.getVeterinario().getId());				
-			}
-			
-			//agrego a la lista a devolver
-			mascotasDTO.add(mDTO);
+			mascotasDTO.add(this.procesarMascota(m));
 		}
 		
 		return mascotasDTO;
 	}
+	
 	
 	@Transactional
 	public MascotaDTO agregarMascota(MascotaDTO mascota) {
@@ -90,6 +81,36 @@ public class MascotaService {
 //		seteo el nuevo id
 		mascota.setId(nuevaMascota.getId());
 		return mascota;
+	}
+	
+	
+	//============================
+	//    OPERACIONES PRIVADAS
+	//============================
+	
+	private MascotaDTO procesarMascota(Mascota m) {
+		MascotaDTO mDTO;
+		
+		mDTO = new MascotaDTO(m.getNombre(), 
+							  m.getFecha_nacimiento().toString(), 
+							  m.getEspecie(), 
+							  m.getRaza(), 
+							  m.getSexo(), 
+							  m.getColor(), 
+							  m.getSenias()
+							  );
+		mDTO.setId(m.getId());
+		
+//		if(!m.getFotos().isEmpty()) {
+//			mDTO.setFotos(m.getFotos());
+//		}
+		
+		//seteo el link a su veterinario
+		if( m.getVeterinario() != null) {
+			mDTO.setVeterinario("ttps-spring/usuario/" + m.getVeterinario().getId());				
+		}
+		
+		return mDTO;
 	}
 
 }

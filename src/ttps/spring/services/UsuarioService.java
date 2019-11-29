@@ -12,12 +12,16 @@ import ttps.spring.jpa.UsuarioDAOHibernateJPA;
 import ttps.spring.model.Rol;
 import ttps.spring.model.Usuario;
 import ttps.spring.model.dto.UsuarioDTO;
+import ttps.spring.model.dto.UsuarioShowDTO;
 
 @Service("usuarioService")
 public class UsuarioService {
 	
 	private UsuarioDAOHibernateJPA usuarioDAO;
 	private RolDAOHibernateJPA rolDAO;
+	
+	@Autowired
+	private MascotaService mascotaService;
 	
 	@Autowired
 	public UsuarioService(UsuarioDAOHibernateJPA usuarioDAO, RolDAOHibernateJPA rolDAO) {
@@ -69,7 +73,7 @@ public class UsuarioService {
 	public UsuarioDTO recuperar(Long id) {
 		Usuario u = this.usuarioDAO.recuperar(id);
 		if (u != null) {
-			return this.procesarUsuario( u );			
+			return this.procesarUsuarioShow( u );			
 		}
 		return null;
 	}
@@ -96,6 +100,36 @@ public class UsuarioService {
 			uDTO.setMatricula(u.getMatricula());
 			uDTO.setDomicilio_consultorio(u.getDomicilio_consultorio());
 			uDTO.setNombre_consultorio(u.getNombre_consultorio());
+		}
+		
+		return uDTO;
+	}
+	
+	private UsuarioDTO procesarUsuarioShow( Usuario u ) {
+		
+		UsuarioShowDTO uDTO;
+		
+		uDTO = new UsuarioShowDTO( u.getId(), 
+				   u.getApellido(), 
+				   u.getNombre(), 
+				   u.getEmail(), 
+				   u.getFecha_nacimiento().toString(), 
+				   u.getTelefono(), 
+				   u.getActivo(),
+				   u.getRoles());
+
+		//setear mascotas
+		uDTO.setMascotas( this.mascotaService.recuperarPorDuenio(u.getId()) );
+		
+		//foto
+		uDTO.setFoto(u.getFoto());
+		
+		if( u.getMatricula() != null ) {
+			uDTO.setMatricula(u.getMatricula());
+			uDTO.setDomicilio_consultorio(u.getDomicilio_consultorio());
+			uDTO.setNombre_consultorio(u.getNombre_consultorio());
+			//setear mascotas atendidas
+			//uDTO.setMascotas_atendidas(  );
 		}
 		
 		return uDTO;

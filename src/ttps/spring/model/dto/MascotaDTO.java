@@ -1,6 +1,9 @@
 package ttps.spring.model.dto;
 
 import java.io.Serializable;
+import java.util.List;
+
+import ttps.spring.model.Foto;
 
 public class MascotaDTO implements Serializable{
 	
@@ -12,6 +15,7 @@ public class MascotaDTO implements Serializable{
 	private String sexo;
 	private String color;
 	private String senias;
+	private List<Foto> fotos;
 	
 	private String duenio;
 	private String veterinario;
@@ -110,5 +114,15 @@ public class MascotaDTO implements Serializable{
 	public void setVeterinario(String veterinario) {
 		this.veterinario = veterinario;
 	}
+
+	public List<Foto> getFotos() {
+		return fotos;
+	}
+
+	public void setFotos(List<Foto> fotos) {
+		this.fotos = fotos;
+	}
+	
+	
 	
 }

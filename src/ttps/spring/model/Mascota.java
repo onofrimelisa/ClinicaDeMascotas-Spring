@@ -28,6 +28,9 @@ public class Mascota {
 	private FichaPublica ficha_publica;
 	
 	@OneToMany(mappedBy="mascota")
+	List<Foto> fotos;
+	
+	@OneToMany(mappedBy="mascota")
 	List<Evento> eventos;
 
 	//Constructor
@@ -51,6 +54,7 @@ public class Mascota {
 		this.senias = senias;
 		this.duenio = duenio;
 		this.eventos = new ArrayList<Evento>();
+		this.fotos = new ArrayList<Foto>();
 	}
 
 
@@ -144,7 +148,33 @@ public class Mascota {
 	public void setVeterinario(Usuario veterinario) {
 		this.veterinario = veterinario;
 	}
+
+
+	public List<Foto> getFotos() {
+		return fotos;
+	}
+
+
+	public List<Evento> getEventos() {
+		return eventos;
+	}
 	
+	public void agregarEvento(Evento evento) {
+		this.eventos.add(evento);
+	}
+	
+	
+	public void eliminarEvento(Evento evento) {
+		this.eventos.remove(evento);	
+	}
+	
+	public void agregarFoto(Foto foto) {
+		this.fotos.add(foto);
+	}
+	
+	public void eliminarFoto(Foto foto) {
+		this.fotos.remove(foto);
+	}
 	
 	
 }

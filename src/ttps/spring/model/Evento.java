@@ -121,6 +121,11 @@ public class Evento {
 		this.mascota = mascota;
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		return ((Evento) obj).getTipo().equals(this.getTipo());
+	}
 	
 	
 }

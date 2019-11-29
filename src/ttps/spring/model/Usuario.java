@@ -1,4 +1,5 @@
 package ttps.spring.model;
+import java.sql.Blob;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,9 @@ public class Usuario {
 	
 	@Column(nullable=true)
 	private String domicilio_consultorio;
+	
+	@Column(nullable=true)
+	private Blob foto;
 	
 	@Column(nullable=true)
 	private String matricula;
@@ -91,7 +95,7 @@ public class Usuario {
 	
 //	Constructor con datos
 	public Usuario(String email, String password, String nombre, String apellido, Date fecha_nacimiento,
-			String telefono, Boolean activo) {
+			String telefono, Boolean activo, Blob foto) {
 		super();
 		this.email = email;
 		this.password = password;
@@ -100,6 +104,7 @@ public class Usuario {
 		this.fecha_nacimiento = fecha_nacimiento;
 		this.telefono = telefono;
 		this.activo = activo;
+		this.foto = foto;
 		
 		//inicializo colecciones
 		this.mascotas = new ArrayList<Mascota>();
@@ -152,6 +157,16 @@ public class Usuario {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+
+	public Blob getFoto() {
+		return foto;
+	}
+
+
+	public void setFoto(Blob foto) {
+		this.foto = foto;
 	}
 
 

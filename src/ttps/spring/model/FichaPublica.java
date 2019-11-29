@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import java.sql.Blob;
 import java.util.ArrayList;
 
 @Entity
@@ -16,19 +17,19 @@ public class FichaPublica {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	 private String nombre;
-	 private Date fecha_nacimiento;
-	 private String especie;
-	 private String raza;
-	 private String sexo;
-	 private String color;
-	 private String senias;
-	 private String email_duenio;
-	 private String nombre_duenio;
-	 private String apellido_duenio;
-	 private String telefono_duenio;
-	 private String domicilio_duenio;
-	
+	private String nombre;
+	private Date fecha_nacimiento;
+	private String especie;
+	private String raza;
+	private String sexo;
+	private String color;
+	private String senias;
+	private Blob foto;
+	private String email_duenio;
+	private String nombre_duenio;
+	private String apellido_duenio;
+	private String telefono_duenio;
+	private String domicilio_duenio;
 	
 	//Constructor
 	public FichaPublica() {
@@ -154,6 +155,21 @@ public class FichaPublica {
 
 	public void setDomicilio_duenio(String domicilio_duenio) {
 		this.domicilio_duenio = domicilio_duenio;
+	}
+
+
+	public Blob getFoto() {
+		return foto;
+	}
+
+
+	public void setFoto(Blob foto) {
+		this.foto = foto;
+	}
+
+
+	public Long getId() {
+		return id;
 	}
 	
 	

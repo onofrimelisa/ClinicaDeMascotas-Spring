@@ -39,8 +39,9 @@ public class FiltroToken implements Filter{
 		HttpServletResponse res = (HttpServletResponse) response;
 		
 		System.out.println("Paso por filtro");
+		System.out.println(token);
 		
-        if(!esValido(token)) {
+		if (token == null || !esValido(token)) {
         	Map<String, Object> error = new HashMap<>();
         	error.put("error", "Token inválido");
         	

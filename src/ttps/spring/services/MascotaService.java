@@ -107,7 +107,7 @@ public class MascotaService {
 		
 		//seteo el link a su veterinario
 		if( m.getVeterinario() != null) {
-			mDTO.setVeterinario("ttps-spring/usuario/" + m.getVeterinario().getId());				
+			mDTO.setVeterinario("ttps-spring/api/usuario/" + m.getVeterinario().getId());				
 		}
 		
 		return mDTO;

@@ -10,7 +10,5 @@ public interface UsuarioDAO extends GenericDAO<Usuario> {
 	
 	public Usuario recuperarPorEmail(String email);
 	
-	public Usuario recuperarPorId(Long id);
-	
 	public Usuario autenticar(String email, String password);
 }

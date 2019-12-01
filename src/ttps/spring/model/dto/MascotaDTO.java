@@ -23,10 +23,6 @@ public class MascotaDTO implements Serializable{
 	
 //	CONSTRUCTOR con campos obligatorios
 	
-	public MascotaDTO () {
-		
-	}
-	
 	public MascotaDTO(String nombre, String fecha_nacimiento, String especie, String raza, String sexo,
 			String color, String senias) {
 		super();

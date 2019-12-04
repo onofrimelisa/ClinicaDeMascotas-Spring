@@ -1,25 +1,29 @@
 package ttps.spring.services;
 
+import java.sql.Date;
 import java.util.ArrayList;
-
-import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ttps.spring.jpa.FichaPublicaDAOHibernateJPA;
+import ttps.spring.jpa.MascotaDAOHibernateJPA;
 import ttps.spring.model.FichaPublica;
+import ttps.spring.model.Mascota;
 import ttps.spring.model.dto.FichaPublicaDTO;
 
 @Service("fichaPublicaService")
 public class FichaPublicaService {
 	
 	private FichaPublicaDAOHibernateJPA fichaPublicaDAO;
+	private MascotaDAOHibernateJPA mascotaDAO;
 	
 	@Autowired
-	public FichaPublicaService(FichaPublicaDAOHibernateJPA fichaPublicaDAO) {
+	public FichaPublicaService(FichaPublicaDAOHibernateJPA fichaPublicaDAO, MascotaDAOHibernateJPA mascotaDAO) {
 		this.fichaPublicaDAO = fichaPublicaDAO;
+		this.mascotaDAO = mascotaDAO;
 	}
 	
 	public FichaPublicaService() {
@@ -28,7 +32,6 @@ public class FichaPublicaService {
 	
 //	METODOS
 	
-//	TODO HACER METODOS PRIVADOS PARA PASAR DE FICHApUBLICA A FICHAPUBLICADTO, POR AHORA SOLO SE SETEA EL APELLIDO DEL DUENIO PARA VER SI ANDA
 	
 	@Transactional
 	public List<FichaPublicaDTO> recuperarTodas(){
@@ -38,15 +41,44 @@ public class FichaPublicaService {
 		List<FichaPublica> fichas = fichaPublicaDAO.recuperarTodos("id");
 		
 		for (FichaPublica f: fichas) {
-			FichaPublicaDTO ficha = new FichaPublicaDTO(f.getId());
+//			devuelve solo las que tengan fotos cargadas
+			if (f.getFoto() != null) {
+				FichaPublicaDTO ficha = new FichaPublicaDTO(f.getId());
+				
+				ficha = this.procesarFichaPublica(f);
+				
+				fichasDTO.add(ficha);
+			}
 			
-			ficha = this.procesarFichaPublica(f);
-			
-			fichasDTO.add(ficha);
 		}
 		
 		return fichasDTO;
 		
+	}
+	
+//	RECUPERAR UN NUMERO DETERMINADO DE FICHAS, SE USA PARA MOSTRARLAS EN EL HOME
+	@Transactional
+	public List<FichaPublicaDTO> recuperarCantidad (String unaCantidad ){
+		
+		List<FichaPublicaDTO> fichasDTO= new ArrayList<FichaPublicaDTO>();
+		
+		Integer cantidad = fichaPublicaDAO.getCantidadFichasConFoto();
+		
+		if (cantidad < Integer.valueOf(unaCantidad)) {
+			return null;
+		}
+		
+		List<FichaPublica> fichas = fichaPublicaDAO.recuperarCantidad( unaCantidad );
+		
+		for (FichaPublica f: fichas) {
+				FichaPublicaDTO ficha = new FichaPublicaDTO(f.getId());
+				
+				ficha = this.procesarFichaPublica(f);
+				
+				fichasDTO.add(ficha);		
+		}
+		
+		return fichasDTO;
 	}
 	
 	@Transactional
@@ -55,10 +87,49 @@ public class FichaPublicaService {
 		FichaPublica ficha = fichaPublicaDAO.recuperar(id);
 		
 		if (ficha != null) {
+//			la devuelve solo si tiene la foto cargada
+			if (ficha.getFoto() != null) {
+				return this.procesarFichaPublica(ficha);
+			}
 			
-			return this.procesarFichaPublica(ficha);
 		}
 		return null;
+		
+	}
+	
+	@Transactional
+	public FichaPublicaDTO agregarFichaPublica( FichaPublicaDTO ficha_publica ) {
+		
+//		chequeo si existe la mascota
+		Mascota mascota = mascotaDAO.recuperar(ficha_publica.getMascota());
+		if( mascota == null) {
+			return null;
+		}
+		
+		FichaPublica nueva_ficha = new FichaPublica();
+		
+		nueva_ficha.setNombre(ficha_publica.getNombre());
+		nueva_ficha.setFecha_nacimiento( Date.valueOf( ficha_publica.getFecha_nacimiento() ) );
+		nueva_ficha.setEspecie(ficha_publica.getEspecie());
+		nueva_ficha.setRaza(ficha_publica.getRaza());
+		nueva_ficha.setSenias(ficha_publica.getSenias());
+		nueva_ficha.setSexo(ficha_publica.getSexo());
+		nueva_ficha.setColor(ficha_publica.getColor());
+		nueva_ficha.setEmail_duenio(ficha_publica.getEmail_duenio());
+		nueva_ficha.setApellido_duenio(ficha_publica.getApellido_duenio());
+		nueva_ficha.setNombre_duenio(ficha_publica.getNombre_duenio());
+		nueva_ficha.setTelefono_duenio(ficha_publica.getTelefono_duenio());
+		nueva_ficha.setDomicilio_duenio(ficha_publica.getDomicilio_duenio());
+		
+//		PASAR A BLOB LA FOTO PARA SETEARLA EN NUEVA_FICHA
+		
+//		PERSISTO
+		nueva_ficha = this.fichaPublicaDAO.persistir(nueva_ficha);
+		mascota.setFicha_publica(nueva_ficha);
+		mascota = this.mascotaDAO.actualizar(mascota);
+		
+		ficha_publica.setId( nueva_ficha.getId() );
+		return ficha_publica;
 		
 	}
 	

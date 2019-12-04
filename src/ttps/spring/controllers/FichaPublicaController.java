@@ -10,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,6 +42,24 @@ public class FichaPublicaController {
 		
 	}
 	
+	@GetMapping("/recuperar/{cantidad}")
+	public ResponseEntity<Map<String,Object>> recuperarTodos( @PathVariable("cantidad")String cantidad) {
+		
+		List<FichaPublicaDTO> fichas_publicas = fichaPublicaService.recuperarCantidad(cantidad);
+;		
+		HashMap<String, Object> res = new HashMap<>();
+		
+		if (fichas_publicas == null) {
+			res.put("error", "La cantidad solicitada excede el tamaño de la colección de fichas públicas.");
+			return new ResponseEntity<Map<String,Object>>(res, HttpStatus.BAD_REQUEST);
+		}
+		
+		res.put("total", cantidad);
+		res.put("fichas_publicas", fichas_publicas);
+		return new ResponseEntity<Map<String,Object>>(res, HttpStatus.OK);
+		
+	}
+	
 	@GetMapping("/{id}")
 	public ResponseEntity<Map<String,Object>> recuperarPorID( @PathVariable("id") Long id) {
 		
@@ -58,5 +78,18 @@ public class FichaPublicaController {
 	}
 	
 //	EL POST MAPPING PARA CREAR UNA FICHA PUBLICA DEBE CHEQUEAR QUE ESTÉ LOGGEADO?
+	
+	@PostMapping
+	public ResponseEntity<Map<String, Object>> agregarFichaPublica (@RequestBody FichaPublicaDTO ficha_publica){
+		HashMap<String, Object> res = new HashMap();
+		
+		FichaPublicaDTO ficha_nueva = this.fichaPublicaService.agregarFichaPublica(ficha_publica);
+		
+		if (ficha_nueva == null) {
+			return new ResponseEntity<Map<String, Object>>(res, HttpStatus.BAD_REQUEST);
+		}
+		
+		res.put("ficha_publica", ficha_nueva);
+		return new ResponseEntity<Map<String, Object>>(res, HttpStatus.OK);	}
 
 }

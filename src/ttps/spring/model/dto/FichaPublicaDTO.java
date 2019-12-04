@@ -2,6 +2,7 @@ package ttps.spring.model.dto;
 
 public class FichaPublicaDTO {
 	private Long id;	
+	private Long mascota;
 	private String nombre;
 	private String fecha_nacimiento;
 	private String especie;
@@ -21,6 +22,17 @@ public class FichaPublicaDTO {
 		this.id = id;
 	}
 	
+	public FichaPublicaDTO() {
+		
+	}
+
+	public Long getMascota() {
+		return mascota;
+	}
+
+	public void setMascota(Long mascota) {
+		this.mascota = mascota;
+	}
 	
 	public Long getId() {
 		return id;

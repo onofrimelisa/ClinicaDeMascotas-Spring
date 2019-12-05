@@ -1,9 +1,18 @@
 package ttps.spring.model;
-import javax.persistence.*;
-
+import java.sql.Blob;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.sql.rowset.serial.SerialBlob;
 
 @Entity
 public class Mascota {
@@ -18,6 +27,9 @@ public class Mascota {
 	private String color;
 	private String senias;
 	
+	@Column(nullable=true)
+	private Blob foto;
+	
 	@ManyToOne(optional=false)
 	private Usuario duenio;
 	
@@ -27,8 +39,6 @@ public class Mascota {
 	@OneToOne(optional=true)
 	private FichaPublica ficha_publica;
 	
-	@OneToMany(mappedBy="mascota")
-	List<Foto> fotos;
 	
 	@OneToMany(mappedBy="mascota")
 	List<Evento> eventos;
@@ -54,7 +64,6 @@ public class Mascota {
 		this.senias = senias;
 		this.duenio = duenio;
 		this.eventos = new ArrayList<Evento>();
-		this.fotos = new ArrayList<Foto>();
 	}
 
 
@@ -150,10 +159,6 @@ public class Mascota {
 	}
 
 
-	public List<Foto> getFotos() {
-		return fotos;
-	}
-
 
 	public List<Evento> getEventos() {
 		return eventos;
@@ -167,14 +172,32 @@ public class Mascota {
 	public void eliminarEvento(Evento evento) {
 		this.eventos.remove(evento);	
 	}
-	
-	public void agregarFoto(Foto foto) {
-		this.fotos.add(foto);
+
+
+
+	public String getFoto() {
+		try {			
+			String str = new String(foto.getBytes(1l, (int)foto.length()));
+			return str;
+		}
+		catch(Exception e) {
+			return null;
+		}
+	}
+
+
+	public void setFoto(String foto) {
+		try {
+			byte[] byteData = foto.getBytes("UTF-8");
+			Blob blobData = new SerialBlob(byteData);
+			this.foto = blobData;
+		}
+		catch(Exception e) {
+			this.foto = null;
+		}
+		
 	}
 	
-	public void eliminarFoto(Foto foto) {
-		this.fotos.remove(foto);
-	}
 	
 	
 }

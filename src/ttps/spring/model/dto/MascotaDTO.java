@@ -1,9 +1,8 @@
 package ttps.spring.model.dto;
 
 import java.io.Serializable;
-import java.util.List;
 
-import ttps.spring.model.Foto;
+
 
 public class MascotaDTO implements Serializable{
 	
@@ -15,13 +14,16 @@ public class MascotaDTO implements Serializable{
 	private String sexo;
 	private String color;
 	private String senias;
-	private List<Foto> fotos;
+	private String foto;
 	
 	private String duenio;
 	private String veterinario;
 
 	
 //	CONSTRUCTOR con campos obligatorios
+	public MascotaDTO() {
+		super();
+	}
 	
 	public MascotaDTO(String nombre, String fecha_nacimiento, String especie, String raza, String sexo,
 			String color, String senias) {
@@ -36,7 +38,7 @@ public class MascotaDTO implements Serializable{
 	}
 	
 	public MascotaDTO(String nombre, String fecha_nacimiento, String especie, String raza, String sexo,
-			String color, String senias, String duenio) {
+			String color, String senias, String duenio, String foto) {
 		super();
 		this.nombre = nombre;
 		this.fecha_nacimiento = fecha_nacimiento;
@@ -46,6 +48,7 @@ public class MascotaDTO implements Serializable{
 		this.color = color;
 		this.senias = senias;
 		this.duenio = duenio;
+		this.foto = foto;
 	}
 	
 //	GETTERS Y SETTERS
@@ -111,13 +114,14 @@ public class MascotaDTO implements Serializable{
 		this.veterinario = veterinario;
 	}
 
-	public List<Foto> getFotos() {
-		return fotos;
+	public String getFoto() {
+		return foto;
 	}
 
-	public void setFotos(List<Foto> fotos) {
-		this.fotos = fotos;
+	public void setFoto(String foto) {
+		this.foto = foto;
 	}
+
 	
 	
 	

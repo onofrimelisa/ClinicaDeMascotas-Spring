@@ -74,6 +74,8 @@ public class MascotaService {
 										   mascota.getSenias(), 
 										   duenio);
 		
+		nuevaMascota.setFoto(mascota.getFoto());
+		
 		nuevaMascota = this.mascotaDAO.persistir( nuevaMascota );
 		duenio.agregarMascota(nuevaMascota);
 		duenio = this.usuarioDAO.actualizar(duenio);
@@ -101,9 +103,9 @@ public class MascotaService {
 							  );
 		mDTO.setId(m.getId());
 		
-//		if(!m.getFotos().isEmpty()) {
-//			mDTO.setFotos(m.getFotos());
-//		}
+		if(m.getFoto() != null) {
+			mDTO.setFoto(m.getFoto());
+		}
 		
 		//seteo el link a su veterinario
 		if( m.getVeterinario() != null) {

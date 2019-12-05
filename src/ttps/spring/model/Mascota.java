@@ -53,7 +53,7 @@ public class Mascota {
 	
 	//Constructor con datos
 	public Mascota(String nombre, Date fecha_nacimiento, String especie, String raza, String sexo, String color,
-			String senias, Usuario duenio) {
+			String senias, Usuario duenio, String foto) {
 		super();
 		this.nombre = nombre;
 		this.fecha_nacimiento = fecha_nacimiento;
@@ -63,6 +63,9 @@ public class Mascota {
 		this.color = color;
 		this.senias = senias;
 		this.duenio = duenio;
+		
+		this.setFoto(foto);
+		
 		this.eventos = new ArrayList<Evento>();
 	}
 

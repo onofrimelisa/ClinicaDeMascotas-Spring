@@ -119,9 +119,7 @@ public class FichaPublicaService {
 		nueva_ficha.setApellido_duenio(ficha_publica.getApellido_duenio());
 		nueva_ficha.setNombre_duenio(ficha_publica.getNombre_duenio());
 		nueva_ficha.setTelefono_duenio(ficha_publica.getTelefono_duenio());
-		nueva_ficha.setDomicilio_duenio(ficha_publica.getDomicilio_duenio());
-		
-//		PASAR A BLOB LA FOTO PARA SETEARLA EN NUEVA_FICHA
+		nueva_ficha.setFoto(ficha_publica.getFoto());
 		
 //		PERSISTO
 		nueva_ficha = this.fichaPublicaDAO.persistir(nueva_ficha);
@@ -140,7 +138,6 @@ public class FichaPublicaService {
 		
 		f.setApellido_duenio(ficha.getApellido_duenio());
 		f.setColor(ficha.getColor());
-		f.setDomicilio_duenio(ficha.getDomicilio_duenio());
 		f.setEmail_duenio(ficha.getEmail_duenio());
 		f.setEspecie(ficha.getEspecie());	
 		f.setFoto(ficha.getFoto());

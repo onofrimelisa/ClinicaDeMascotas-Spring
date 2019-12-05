@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.sql.rowset.serial.SerialBlob;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -95,7 +96,7 @@ public class Usuario {
 	
 //	Constructor con datos
 	public Usuario(String email, String password, String nombre, String apellido, Date fecha_nacimiento,
-			String telefono, Boolean activo, Blob foto) {
+			String telefono, Boolean activo, String foto) {
 		super();
 		this.email = email;
 		this.password = password;
@@ -104,7 +105,8 @@ public class Usuario {
 		this.fecha_nacimiento = fecha_nacimiento;
 		this.telefono = telefono;
 		this.activo = activo;
-		this.foto = foto;
+		
+		this.setFoto(foto);
 		
 		//inicializo colecciones
 		this.mascotas = new ArrayList<Mascota>();
@@ -171,8 +173,16 @@ public class Usuario {
 	}
 
 
-	public void setFoto(Blob foto) {
-		this.foto = foto;
+	public void setFoto(String foto) {
+		try {
+			byte[] byteData = foto.getBytes("UTF-8");
+			Blob blobData = new SerialBlob(byteData);
+			this.foto = blobData;
+		}
+		catch(Exception e) {
+			this.foto = null;
+		}
+		
 	}
 
 

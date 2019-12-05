@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.sql.rowset.serial.SerialBlob;
 
 import java.sql.Blob;
 import java.util.ArrayList;
@@ -29,7 +30,6 @@ public class FichaPublica {
 	private String nombre_duenio;
 	private String apellido_duenio;
 	private String telefono_duenio;
-	private String domicilio_duenio;
 	
 	//Constructor
 	public FichaPublica() {
@@ -148,15 +148,6 @@ public class FichaPublica {
 	}
 
 
-	public String getDomicilio_duenio() {
-		return domicilio_duenio;
-	}
-
-
-	public void setDomicilio_duenio(String domicilio_duenio) {
-		this.domicilio_duenio = domicilio_duenio;
-	}
-
 
 	public String getFoto() {
 		try {			
@@ -169,8 +160,16 @@ public class FichaPublica {
 	}
 
 
-	public void setFoto(Blob foto) {
-		this.foto = foto;
+	public void setFoto(String foto) {
+		try {
+			byte[] byteData = foto.getBytes("UTF-8");
+			Blob blobData = new SerialBlob(byteData);
+			this.foto = blobData;
+		}
+		catch(Exception e) {
+			this.foto = null;
+		}
+		
 	}
 
 

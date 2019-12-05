@@ -15,7 +15,6 @@ public class FichaPublicaDTO {
 	private String nombre_duenio;
 	private String apellido_duenio;
 	private String telefono_duenio;
-	private String domicilio_duenio;
 	
 //	se crea solo con la foto, luego se setean las variables
 	public FichaPublicaDTO( Long id ) {
@@ -112,10 +111,5 @@ public class FichaPublicaDTO {
 	public void setTelefono_duenio(String telefono_duenio) {
 		this.telefono_duenio = telefono_duenio;
 	}
-	public String getDomicilio_duenio() {
-		return domicilio_duenio;
-	}
-	public void setDomicilio_duenio(String domicilio_duenio) {
-		this.domicilio_duenio = domicilio_duenio;
-	}
+	
 }

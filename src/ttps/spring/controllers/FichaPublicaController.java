@@ -19,13 +19,13 @@ import ttps.spring.model.dto.FichaPublicaDTO;
 import ttps.spring.services.FichaPublicaService;
 
 @RestController
-@RequestMapping(value = "/ficha_publica", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 public class FichaPublicaController {
 	
 	@Autowired
 	FichaPublicaService fichaPublicaService;
 	
-	@GetMapping()
+	@GetMapping("/ficha_publica")
 	public ResponseEntity<Map<String,Object>> recuperarTodos() {
 		
 		List<FichaPublicaDTO> fichas_publicas = fichaPublicaService.recuperarTodas()
@@ -77,9 +77,8 @@ public class FichaPublicaController {
 		
 	}
 	
-//	EL POST MAPPING PARA CREAR UNA FICHA PUBLICA DEBE CHEQUEAR QUE ESTÉ LOGGEADO?
 	
-	@PostMapping
+	@PostMapping("/api/ficha_publica")
 	public ResponseEntity<Map<String, Object>> agregarFichaPublica (@RequestBody FichaPublicaDTO ficha_publica){
 		HashMap<String, Object> res = new HashMap();
 		

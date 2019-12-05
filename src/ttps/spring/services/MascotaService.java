@@ -72,9 +72,8 @@ public class MascotaService {
 										   mascota.getSexo(), 
 										   mascota.getColor(), 
 										   mascota.getSenias(), 
-										   duenio);
-		
-		nuevaMascota.setFoto(mascota.getFoto());
+										   duenio,
+										   mascota.getFoto());
 		
 		nuevaMascota = this.mascotaDAO.persistir( nuevaMascota );
 		duenio.agregarMascota(nuevaMascota);

@@ -28,7 +28,7 @@ public class Mascota {
 	private String senias;
 	
 	@Column(nullable=true)
-	private Blob foto;
+	private String foto;
 	
 	@ManyToOne(optional=false)
 	private Usuario duenio;
@@ -63,9 +63,7 @@ public class Mascota {
 		this.color = color;
 		this.senias = senias;
 		this.duenio = duenio;
-		
-		this.setFoto(foto);
-		
+		this.foto = foto;
 		this.eventos = new ArrayList<Evento>();
 	}
 
@@ -179,26 +177,12 @@ public class Mascota {
 
 
 	public String getFoto() {
-		try {			
-			String str = new String(foto.getBytes(1l, (int)foto.length()));
-			return str;
-		}
-		catch(Exception e) {
-			return null;
-		}
+		return foto;
 	}
 
 
 	public void setFoto(String foto) {
-		try {
-			byte[] byteData = foto.getBytes("UTF-8");
-			Blob blobData = new SerialBlob(byteData);
-			this.foto = blobData;
-		}
-		catch(Exception e) {
-			this.foto = null;
-		}
-		
+		this.foto = foto;
 	}
 	
 	

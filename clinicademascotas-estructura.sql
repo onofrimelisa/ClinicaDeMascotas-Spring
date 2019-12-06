@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 29-11-2019 a las 15:39:21
+-- Tiempo de generación: 07-12-2019 a las 00:23:48
 -- Versión del servidor: 10.4.8-MariaDB
 -- Versión de PHP: 7.3.11
 
@@ -52,29 +52,16 @@ CREATE TABLE `FichaPublica` (
   `id` bigint(20) NOT NULL,
   `apellido_duenio` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
   `color` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `domicilio_duenio` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
   `email_duenio` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
   `especie` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
   `fecha_nacimiento` datetime(6) DEFAULT NULL,
-  `foto` longblob DEFAULT NULL,
+  `foto` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
   `nombre` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
   `nombre_duenio` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
   `raza` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
   `senias` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
   `sexo` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
   `telefono_duenio` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `Foto`
---
-
-CREATE TABLE `Foto` (
-  `id` bigint(20) NOT NULL,
-  `contenido` longblob DEFAULT NULL,
-  `mascota_id` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
@@ -88,6 +75,7 @@ CREATE TABLE `Mascota` (
   `color` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
   `especie` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
   `fecha_nacimiento` date DEFAULT NULL,
+  `foto` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
   `nombre` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
   `raza` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
   `senias` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
@@ -167,7 +155,7 @@ CREATE TABLE `Usuario` (
   `domicilio_consultorio` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
   `email` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
   `fecha_nacimiento` date DEFAULT NULL,
-  `foto` longblob DEFAULT NULL,
+  `foto` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
   `matricula` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
   `nombre` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
   `nombre_consultorio` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
@@ -218,13 +206,6 @@ ALTER TABLE `Evento`
 --
 ALTER TABLE `FichaPublica`
   ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `Foto`
---
-ALTER TABLE `Foto`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `FKm9pe6iq96gryas9lnc5v4u371` (`mascota_id`);
 
 --
 -- Indices de la tabla `Mascota`
@@ -285,12 +266,6 @@ ALTER TABLE `FichaPublica`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `Foto`
---
-ALTER TABLE `Foto`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT de la tabla `Mascota`
 --
 ALTER TABLE `Mascota`
@@ -331,12 +306,6 @@ ALTER TABLE `Evento`
   ADD CONSTRAINT `FKdlk4lgvep8skt9ibn9y3lhp2g` FOREIGN KEY (`mascota_id`) REFERENCES `Mascota` (`id`),
   ADD CONSTRAINT `FKg7g6ksm3du6m6w03nwxk7ums7` FOREIGN KEY (`tipo_id`) REFERENCES `TipoEvento` (`id`),
   ADD CONSTRAINT `FKol99rb2gjs5ox4isgvpiq2nrh` FOREIGN KEY (`usuario_creador_id`) REFERENCES `Usuario` (`id`);
-
---
--- Filtros para la tabla `Foto`
---
-ALTER TABLE `Foto`
-  ADD CONSTRAINT `FKm9pe6iq96gryas9lnc5v4u371` FOREIGN KEY (`mascota_id`) REFERENCES `Mascota` (`id`);
 
 --
 -- Filtros para la tabla `Mascota`

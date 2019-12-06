@@ -153,7 +153,7 @@ public class UsuarioService {
 				   u.getRoles());
 
 		//setear mascotas
-//		uDTO.setMascotas( this.mascotaService.recuperarPorDuenio(u.getId()) );
+		uDTO.setMascotas( this.mascotaService.recuperarPorDuenio(u.getId()) );
 		
 		//foto
 		uDTO.setFoto(u.getFoto());
@@ -163,7 +163,7 @@ public class UsuarioService {
 			uDTO.setDomicilio_consultorio(u.getDomicilio_consultorio());
 			uDTO.setNombre_consultorio(u.getNombre_consultorio());
 			//setear mascotas atendidas
-			//uDTO.setMascotas_atendidas(  );
+//			uDTO.setMascotas_atendidas(u.getMascotas_atendidas());
 		}
 		
 		return uDTO;

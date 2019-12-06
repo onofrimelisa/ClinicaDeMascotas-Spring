@@ -9,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.sql.rowset.serial.SerialBlob;
 
-import java.sql.Blob;
 import java.util.ArrayList;
 
 @Entity
@@ -25,7 +24,7 @@ public class FichaPublica {
 	private String sexo;
 	private String color;
 	private String senias;
-	private Blob foto;
+	private String foto;
 	private String email_duenio;
 	private String nombre_duenio;
 	private String apellido_duenio;
@@ -150,26 +149,12 @@ public class FichaPublica {
 
 
 	public String getFoto() {
-		try {			
-			String str = new String(foto.getBytes(1l, (int)foto.length()));
-			return str;
-		}
-		catch(Exception e) {
-			return null;
-		}
+		return foto;
 	}
 
 
 	public void setFoto(String foto) {
-		try {
-			byte[] byteData = foto.getBytes("UTF-8");
-			Blob blobData = new SerialBlob(byteData);
-			this.foto = blobData;
-		}
-		catch(Exception e) {
-			this.foto = null;
-		}
-		
+		this.foto = foto;
 	}
 
 

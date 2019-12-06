@@ -47,7 +47,7 @@ public class Usuario {
 	private String domicilio_consultorio;
 	
 	@Column(nullable=true)
-	private Blob foto;
+	private String foto;
 	
 	@Column(nullable=true)
 	private String matricula;
@@ -105,8 +105,7 @@ public class Usuario {
 		this.fecha_nacimiento = fecha_nacimiento;
 		this.telefono = telefono;
 		this.activo = activo;
-		
-		this.setFoto(foto);
+		this.foto = foto;
 		
 		//inicializo colecciones
 		this.mascotas = new ArrayList<Mascota>();
@@ -163,26 +162,12 @@ public class Usuario {
 
 
 	public String getFoto() {
-		try {			
-			String str = new String(foto.getBytes(1l, (int)foto.length()));
-			return str;
-		}
-		catch(Exception e) {
-			return null;
-		}
+		return foto;
 	}
 
 
 	public void setFoto(String foto) {
-		try {
-			byte[] byteData = foto.getBytes("UTF-8");
-			Blob blobData = new SerialBlob(byteData);
-			this.foto = blobData;
-		}
-		catch(Exception e) {
-			this.foto = null;
-		}
-		
+		this.foto = foto;
 	}
 
 

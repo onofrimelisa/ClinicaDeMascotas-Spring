@@ -41,9 +41,12 @@ public class UsuarioDAOHibernateJPA extends GenericDAOHibernateJPA<Usuario> impl
 		
 		consulta.setParameter("email", email);
 		
-		Usuario resultado = (Usuario)consulta.getSingleResult();
-		
-		return resultado;
+		try {
+			return (Usuario)consulta.getSingleResult();
+		}
+		catch(Exception e) {
+			return null;
+		}
 	}
 	
 	

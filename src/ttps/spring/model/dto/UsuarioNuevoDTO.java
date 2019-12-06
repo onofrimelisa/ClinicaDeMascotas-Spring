@@ -1,65 +1,69 @@
 package ttps.spring.model.dto;
 
 import java.io.Serializable;
-import java.util.List;
 
-import ttps.spring.model.Rol;
-
-
-public class UsuarioDTO implements Serializable {
-
-	private Long id;
+public class UsuarioNuevoDTO implements Serializable{
+	
+	private String password;
+	private String foto;
 	private String apellido;
 	private String nombre;
 	private String email;
 	private String fecha_nacimiento;
 	private String telefono;
 	private Boolean activo;	
-	private List<Rol> roles;	
+	private String rol;	
 	
 //	veterinario
 	private String nombre_consultorio;
 	private String domicilio_consultorio;
 	private String matricula;
-
 	
 	
-//	Constructor para el show
-	public UsuarioDTO(Long id, String apellido, String nombre, String email, String fecha_nacimiento, String telefono,
-			Boolean activo, List<Rol> roles) {
+	public UsuarioNuevoDTO() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public UsuarioNuevoDTO(String password, String foto, String apellido, String nombre, String email,
+			String fecha_nacimiento, String telefono, Boolean activo, String rol, String nombre_consultorio,
+			String domicilio_consultorio, String matricula) {
 		super();
-		this.id = id;
+		this.password = password;
+		this.foto = foto;
 		this.apellido = apellido;
 		this.nombre = nombre;
 		this.email = email;
 		this.fecha_nacimiento = fecha_nacimiento;
 		this.telefono = telefono;
 		this.activo = activo;
-		this.roles = roles;
-	}
-	
-	public UsuarioDTO(String apellido, String nombre, String email, String fecha_nacimiento, String telefono,
-			Boolean activo, List<Rol> roles) {
-		super();
-		this.apellido = apellido;
-		this.nombre = nombre;
-		this.email = email;
-		this.fecha_nacimiento = fecha_nacimiento;
-		this.telefono = telefono;
-		this.activo = activo;
-		this.roles = roles;
+		this.rol = rol;
+		this.nombre_consultorio = nombre_consultorio;
+		this.domicilio_consultorio = domicilio_consultorio;
+		this.matricula = matricula;
 	}
 
 
 
-	public Long getId() {
-		return id;
+	public String getFoto() {
+		return foto;
 	}
 
 
-	public void setId(Long id) {
-		this.id = id;
+
+	public void setFoto(String foto) {
+		this.foto = foto;
 	}
+
+
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 
 
 	public String getApellido() {
@@ -67,9 +71,11 @@ public class UsuarioDTO implements Serializable {
 	}
 
 
+
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
 	}
+
 
 
 	public String getNombre() {
@@ -77,9 +83,11 @@ public class UsuarioDTO implements Serializable {
 	}
 
 
+
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+
 
 
 	public String getEmail() {
@@ -87,9 +95,11 @@ public class UsuarioDTO implements Serializable {
 	}
 
 
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 
 
 	public String getFecha_nacimiento() {
@@ -97,9 +107,11 @@ public class UsuarioDTO implements Serializable {
 	}
 
 
+
 	public void setFecha_nacimiento(String fecha_nacimiento) {
 		this.fecha_nacimiento = fecha_nacimiento;
 	}
+
 
 
 	public String getTelefono() {
@@ -107,9 +119,11 @@ public class UsuarioDTO implements Serializable {
 	}
 
 
+
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
+
 
 
 	public Boolean getActivo() {
@@ -117,19 +131,23 @@ public class UsuarioDTO implements Serializable {
 	}
 
 
+
 	public void setActivo(Boolean activo) {
 		this.activo = activo;
 	}
 
 
-	public List<Rol> getRoles() {
-		return roles;
+
+	public String getRol() {
+		return rol;
 	}
 
 
-	public void setRoles(List<Rol> roles) {
-		this.roles = roles;
+
+	public void setRol(String rol) {
+		this.rol = rol;
 	}
+
 
 
 	public String getNombre_consultorio() {
@@ -137,9 +155,11 @@ public class UsuarioDTO implements Serializable {
 	}
 
 
+
 	public void setNombre_consultorio(String nombre_consultorio) {
 		this.nombre_consultorio = nombre_consultorio;
 	}
+
 
 
 	public String getDomicilio_consultorio() {
@@ -147,9 +167,11 @@ public class UsuarioDTO implements Serializable {
 	}
 
 
+
 	public void setDomicilio_consultorio(String domicilio_consultorio) {
 		this.domicilio_consultorio = domicilio_consultorio;
 	}
+
 
 
 	public String getMatricula() {
@@ -157,9 +179,11 @@ public class UsuarioDTO implements Serializable {
 	}
 
 
+
 	public void setMatricula(String matricula) {
 		this.matricula = matricula;
 	}
-
 	
+	 
+
 }

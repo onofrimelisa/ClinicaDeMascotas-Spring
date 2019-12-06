@@ -1,5 +1,6 @@
 package ttps.spring.services;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import ttps.spring.jpa.UsuarioDAOHibernateJPA;
 import ttps.spring.model.Rol;
 import ttps.spring.model.Usuario;
 import ttps.spring.model.dto.UsuarioDTO;
+import ttps.spring.model.dto.UsuarioNuevoDTO;
 import ttps.spring.model.dto.UsuarioShowDTO;
 
 @Service("usuarioService")
@@ -68,6 +70,15 @@ public class UsuarioService {
 		
 	}
 	
+	@Transactional 
+	public boolean existe( String email) {
+		if ( this.usuarioDAO.recuperarPorEmail(email) == null) {
+			return false;
+		}
+		
+		return true;
+	}
+	
 	
 	@Transactional
 	public UsuarioDTO recuperar(Long id) {
@@ -76,6 +87,29 @@ public class UsuarioService {
 			return this.procesarUsuarioShow( u );			
 		}
 		return null;
+	}
+	
+	@Transactional
+	public UsuarioDTO agregar( UsuarioNuevoDTO uDTO ) {
+		
+		Usuario usuarioNuevo = new Usuario( uDTO.getEmail(), 
+											uDTO.getPassword(), 
+											uDTO.getNombre(), 
+											uDTO.getApellido(), 
+											Date.valueOf( uDTO.getFecha_nacimiento() ),
+											uDTO.getTelefono(), 
+											uDTO.getActivo(), 
+											uDTO.getFoto());
+		
+		usuarioNuevo = this.usuarioDAO.persistir( usuarioNuevo );
+		// me quedo con el rol
+		Rol rol = this.rolDAO.recuperarPorNombre( uDTO.getRol() );
+		
+		usuarioNuevo.agregarRol(rol);
+		usuarioNuevo = this.usuarioDAO.actualizar( usuarioNuevo );
+		
+		return this.procesarUsuario( usuarioNuevo );
+		
 	}
 	
 	

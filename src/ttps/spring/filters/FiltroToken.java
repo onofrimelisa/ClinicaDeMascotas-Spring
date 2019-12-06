@@ -14,10 +14,13 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import ttps.spring.services.TokenService;
 
 
 @WebFilter("/api/*")
@@ -35,13 +38,13 @@ public class FiltroToken implements Filter{
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		
-		String token = ((HttpServletRequest)request).getHeader("token");
+		String token = ((HttpServletRequest)request).getHeader(HttpHeaders.AUTHORIZATION);
 		HttpServletResponse res = (HttpServletResponse) response;
 		
 		System.out.println("Paso por filtro");
 		System.out.println(token);
 		
-		if (token == null || !esValido(token)) {
+		if (token == null || !TokenService.validateToken(token)) {
         	Map<String, Object> error = new HashMap<>();
         	error.put("error", "Token inválido");
         	
@@ -60,7 +63,4 @@ public class FiltroToken implements Filter{
 		
 	}
 
-	private boolean esValido(String token) {
-		return token.equals("1234");
-	}
 }

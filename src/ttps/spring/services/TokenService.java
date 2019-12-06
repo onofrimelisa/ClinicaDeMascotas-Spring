@@ -49,12 +49,10 @@ public class TokenService {
                 token = token.substring(prefix.length()).trim();
             }
 
-            Claims claims = Jwts.parser()
-                    .setSigningKey(key)
-                    .parseClaimsJws(token).getBody();
-            
-            // obtener claims para generar payload y devolverlo
-            
+//            Claims claims = Jwts.parser()
+//                    .setSigningKey(key)
+//                    .parseClaimsJws(token).getBody();
+//            
             return true;
         } catch (ExpiredJwtException exp) {
             System.out.println("El Token es valido, pero expiro su tiempo de validez");

@@ -127,6 +127,10 @@ public class Usuario {
 	public Long getId() {
 		return id;
 	}
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	
 	public List<Evento> getEventos() {
@@ -302,7 +306,6 @@ public class Usuario {
 	public void quitarRol(Rol rol) {
 		this.roles.remove(rol);
 	}
-	
 
 	
 }

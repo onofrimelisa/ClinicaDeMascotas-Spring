@@ -46,6 +46,11 @@ public class AutenticacionController {
 			return new ResponseEntity<Map<String,Object>>(res, HttpStatus.BAD_REQUEST);
 		}
 		
+		if (usuario.getActivo() == false ) {
+			res.put("error", "Todavía no es un usuario activo.");
+			return new ResponseEntity<Map<String,Object>>(res, HttpStatus.BAD_REQUEST);
+		}
+		
 		//Creo payload
 		PayloadDTO payload = new PayloadDTO(usuario.getId(), usuario.getRoles());
 		

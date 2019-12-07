@@ -15,6 +15,8 @@ import ttps.spring.model.Usuario;
 import ttps.spring.model.dto.UsuarioDTO;
 import ttps.spring.model.dto.UsuarioNuevoDTO;
 import ttps.spring.model.dto.UsuarioShowDTO;
+import ttps.spring.model.dto.UsuarioUpdateDTO;
+import ttps.spring.model.dto.UsuarioUpdatePersonalesDTO;
 
 @Service("usuarioService")
 public class UsuarioService {
@@ -99,11 +101,17 @@ public class UsuarioService {
 											Date.valueOf( uDTO.getFecha_nacimiento() ),
 											uDTO.getTelefono(), 
 											uDTO.getActivo(), 
-											uDTO.getFoto());
+											uDTO.getFoto() );
 		
-		usuarioNuevo = this.usuarioDAO.persistir( usuarioNuevo );
 		// me quedo con el rol
 		Rol rol = this.rolDAO.recuperarPorNombre( uDTO.getRol() );
+		
+//		si el rol es veterinario, seteo activo en 0
+		if ( rol.getNombre().equals( "veterinario" ) ) {
+			usuarioNuevo.setActivo(false);
+		}
+		
+		usuarioNuevo = this.usuarioDAO.persistir( usuarioNuevo );
 		
 		usuarioNuevo.agregarRol(rol);
 		usuarioNuevo = this.usuarioDAO.actualizar( usuarioNuevo );
@@ -112,10 +120,62 @@ public class UsuarioService {
 		
 	}
 	
+	@Transactional
+	public UsuarioUpdateDTO actualizarPersonales( UsuarioUpdatePersonalesDTO uPersonalesDTO, Long id) {
+		
+		Usuario usuario = this.usuarioDAO.recuperar(id);
+		
+//		si el usuario tambien tiene rol veterinario, me guardo esos datos antes de actualizar
+		
+//		en el siguiente codigo intente chequear si el user tenia el rol veterinario, pero se rompe en la consulta hql y no se x q
+		
+//		if( this.usuarioDAO.tieneRol(usuario, this.rolDAO.recuperarPorNombre("veterinario"))) {
+//			System.out.println("tiene");
+//		}
+		
+//		para probar, asumo que se manda un veterinario 
+		
+		UsuarioUpdateDTO usuarioActualizadoDTO = new UsuarioUpdateDTO(uPersonalesDTO.getPassword(), 
+																		uPersonalesDTO.getFoto(), 
+																		uPersonalesDTO.getApellido(), 
+																		uPersonalesDTO.getNombre(), 
+																		uPersonalesDTO.getEmail(), 
+																		uPersonalesDTO.getFecha_nacimiento(), 
+																		uPersonalesDTO.getTelefono(), 
+																		usuario.getNombre_consultorio(), 
+																		usuario.getDomicilio_consultorio(), 
+																		usuario.getMatricula() );
+		
+		Usuario usuarioActualizado = this.actualizar( usuario, usuarioActualizadoDTO);		
+	    usuarioActualizado = this.usuarioDAO.actualizar(usuarioActualizado);
+		
+		return usuarioActualizadoDTO;
+	}
+	
 	
 	//============================
 	//    OPERACIONES PRIVADAS
 	//============================
+	
+	private Usuario actualizar( Usuario u, UsuarioUpdateDTO uActualizado) {
+		
+		Usuario usuario_aux = new Usuario(uActualizado.getEmail(), 
+											uActualizado.getPassword(), 
+											uActualizado.getNombre(), 
+											uActualizado.getApellido(), 
+											Date.valueOf(uActualizado.getFecha_nacimiento()), 
+											uActualizado.getTelefono(),
+											u.getActivo(), 
+											uActualizado.getFoto() );
+		
+		usuario_aux.setNombre_consultorio(u.getNombre_consultorio());
+		usuario_aux.setMatricula(u.getMatricula());
+		usuario_aux.setDomicilio_consultorio(u.getDomicilio_consultorio());
+		usuario_aux.setId(u.getId());
+		
+		return usuario_aux;
+		
+	}
 	
 	private UsuarioDTO procesarUsuario( Usuario u ) {
 		

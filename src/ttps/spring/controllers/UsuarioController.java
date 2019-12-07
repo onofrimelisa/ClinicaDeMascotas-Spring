@@ -10,12 +10,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ttps.spring.model.dto.UsuarioDTO;
+import ttps.spring.model.dto.UsuarioUpdateDTO;
+import ttps.spring.model.dto.UsuarioUpdatePersonalesDTO;
 import ttps.spring.services.UsuarioService;
 
 @RestController
@@ -73,6 +75,32 @@ public class UsuarioController {
 	
 	}
 	
+	@PutMapping("/personales/{id}")
+	public ResponseEntity<Map<String, Object>> modificarDatosPersonales ( @PathVariable("id") Long id, @RequestBody UsuarioUpdatePersonalesDTO uDTO){
+		
+		UsuarioDTO usuario = usuarioService.recuperar(id);
+		HashMap<String, Object> res = new HashMap<>();
+		
+		if(usuario == null || usuario.getId() != uDTO.getId()) {
+			return new ResponseEntity<Map<String,Object>>(HttpStatus.NO_CONTENT);
+		}
+		
+		UsuarioUpdateDTO usuarioActualizado = this.usuarioService.actualizarPersonales(uDTO, id);
+		
+		res.put("usuario", usuarioActualizado);
+		return new ResponseEntity<Map<String, Object>>(res, HttpStatus.OK);
+		
+	}
+	
+	
+//	falta hacer el put de datos profesionales
+	@PutMapping("/profesionales/{id}")
+	public ResponseEntity<Map<String, Object>> modificarDatosProfesionales ( @PathVariable("id") Long id, @RequestBody UsuarioUpdatePersonalesDTO uDTO){
+		HashMap<String, Object> res = new HashMap<>();
+		
+		return new ResponseEntity<Map<String, Object>>(res, HttpStatus.OK);
+		
+	}
 	
 	
 }

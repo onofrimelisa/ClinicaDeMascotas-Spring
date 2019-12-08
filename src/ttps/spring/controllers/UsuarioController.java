@@ -87,20 +87,24 @@ public class UsuarioController {
 		
 		UsuarioUpdateDTO usuarioActualizado = this.usuarioService.actualizarPersonales(uDTO, id);
 		
+		if(usuarioActualizado == null) {
+			res.put("error", "El email seleccionado ya existe");
+			return new ResponseEntity<Map<String,Object>>(res, HttpStatus.BAD_REQUEST);
+		}
+		
 		res.put("usuario", usuarioActualizado);
 		return new ResponseEntity<Map<String, Object>>(res, HttpStatus.OK);
 		
 	}
 	
 	
-//	falta hacer el put de datos profesionales
-	@PutMapping("/profesionales/{id}")
-	public ResponseEntity<Map<String, Object>> modificarDatosProfesionales ( @PathVariable("id") Long id, @RequestBody UsuarioUpdatePersonalesDTO uDTO){
-		HashMap<String, Object> res = new HashMap<>();
-		
-		return new ResponseEntity<Map<String, Object>>(res, HttpStatus.OK);
-		
-	}
+//	@PutMapping("/profesionales/{id}")
+//	public ResponseEntity<Map<String, Object>> modificarDatosProfesionales ( @PathVariable("id") Long id, @RequestBody UsuarioUpdateProfesionalesDTO uDTO){
+//		HashMap<String, Object> res = new HashMap<>();
+//		
+//		return new ResponseEntity<Map<String, Object>>(res, HttpStatus.OK);
+//		
+//	}
 	
 	
 }

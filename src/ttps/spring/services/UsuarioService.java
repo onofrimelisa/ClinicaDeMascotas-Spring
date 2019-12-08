@@ -125,16 +125,11 @@ public class UsuarioService {
 		
 		Usuario usuario = this.usuarioDAO.recuperar(id);
 		
-//		si el usuario tambien tiene rol veterinario, me guardo esos datos antes de actualizar
-		
-//		en el siguiente codigo intente chequear si el user tenia el rol veterinario, pero se rompe en la consulta hql y no se x q
-		
-//		if( this.usuarioDAO.tieneRol(usuario, this.rolDAO.recuperarPorNombre("veterinario"))) {
-//			System.out.println("tiene");
-//		}
-		
-//		para probar, asumo que se manda un veterinario 
-		
+//		además hay que chequear que el email que se quiere actualizar no ecxista en la bd
+		if ( this.usuarioDAO.recuperarPorEmail(uPersonalesDTO.getEmail()) != null ) {
+			return null;
+		}
+				
 		UsuarioUpdateDTO usuarioActualizadoDTO = new UsuarioUpdateDTO(uPersonalesDTO.getPassword(), 
 																		uPersonalesDTO.getFoto(), 
 																		uPersonalesDTO.getApellido(), 
@@ -159,21 +154,16 @@ public class UsuarioService {
 	
 	private Usuario actualizar( Usuario u, UsuarioUpdateDTO uActualizado) {
 		
-		Usuario usuario_aux = new Usuario(uActualizado.getEmail(), 
-											uActualizado.getPassword(), 
-											uActualizado.getNombre(), 
-											uActualizado.getApellido(), 
-											Date.valueOf(uActualizado.getFecha_nacimiento()), 
-											uActualizado.getTelefono(),
-											u.getActivo(), 
-											uActualizado.getFoto() );
+//		seteo solo los datos personales, los otros quedan como estaban
+		u.setPassword(uActualizado.getPassword());
+		u.setFoto(uActualizado.getFoto());
+		u.setApellido(uActualizado.getApellido());
+		u.setNombre(uActualizado.getNombre());
+		u.setEmail(uActualizado.getEmail());
+		u.setFecha_nacimiento(Date.valueOf(uActualizado.getFecha_nacimiento()));
+		u.setTelefono(uActualizado.getTelefono());
 		
-		usuario_aux.setNombre_consultorio(u.getNombre_consultorio());
-		usuario_aux.setMatricula(u.getMatricula());
-		usuario_aux.setDomicilio_consultorio(u.getDomicilio_consultorio());
-		usuario_aux.setId(u.getId());
-		
-		return usuario_aux;
+		return u;
 		
 	}
 	

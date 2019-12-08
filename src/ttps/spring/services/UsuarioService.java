@@ -127,7 +127,7 @@ public class UsuarioService {
 		Usuario usuario = this.usuarioDAO.recuperar(uPersonalesDTO.getId());
 		
 //		además hay que chequear que el email que se quiere actualizar no ecxista en la bd
-		if ( this.usuarioDAO.recuperarPorEmail(uPersonalesDTO.getEmail()) != null ) {
+		if ( (uPersonalesDTO.getEmail() != usuario.getEmail()) && (this.usuarioDAO.recuperarPorEmail(uPersonalesDTO.getEmail()) != null) ) {
 			return null;
 		}
 				

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ttps.spring.model.dto.UsuarioDTO;
 import ttps.spring.model.dto.UsuarioUpdateDTO;
 import ttps.spring.model.dto.UsuarioUpdatePersonalesDTO;
+import ttps.spring.model.dto.UsuarioUpdateProfesionalesDTO;
 import ttps.spring.services.UsuarioService;
 
 @RestController
@@ -85,7 +86,7 @@ public class UsuarioController {
 			return new ResponseEntity<Map<String,Object>>(HttpStatus.NO_CONTENT);
 		}
 		
-		UsuarioUpdateDTO usuarioActualizado = this.usuarioService.actualizarPersonales(uDTO, id);
+		UsuarioUpdateDTO usuarioActualizado = this.usuarioService.actualizarPersonales(uDTO);
 		
 		if(usuarioActualizado == null) {
 			res.put("error", "El email seleccionado ya existe");
@@ -98,13 +99,21 @@ public class UsuarioController {
 	}
 	
 	
-//	@PutMapping("/profesionales/{id}")
-//	public ResponseEntity<Map<String, Object>> modificarDatosProfesionales ( @PathVariable("id") Long id, @RequestBody UsuarioUpdateProfesionalesDTO uDTO){
-//		HashMap<String, Object> res = new HashMap<>();
-//		
-//		return new ResponseEntity<Map<String, Object>>(res, HttpStatus.OK);
-//		
-//	}
+	@PutMapping("/profesionales/{id}")
+	public ResponseEntity<Map<String, Object>> modificarDatosProfesionales ( @PathVariable("id") Long id, @RequestBody UsuarioUpdateProfesionalesDTO uDTO){
+		UsuarioDTO usuario = usuarioService.recuperar(id);
+		HashMap<String, Object> res = new HashMap<>();
+		
+		if(usuario == null || usuario.getId() != uDTO.getId()) {
+			return new ResponseEntity<Map<String,Object>>(HttpStatus.NO_CONTENT);
+		}
+		
+		UsuarioUpdateDTO usuarioActualizado = this.usuarioService.actualizarProfesionales(uDTO);
+		
+		res.put("usuario", usuarioActualizado);
+		return new ResponseEntity<Map<String, Object>>(res, HttpStatus.OK);
+		
+	}
 	
 	
 }

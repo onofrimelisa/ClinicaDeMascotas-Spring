@@ -299,6 +299,14 @@ public class Usuario {
 		
 	}
 	
+	public List<String> getRolesNombres() {
+		List<String> roles = new ArrayList<String>();
+		for (Rol r : this.getRoles()) {
+			roles.add(r.getNombre());
+		}
+		return roles;
+	}
+	
 	public void agregarRol(Rol rol) {
 		this.roles.add(rol);
 	}

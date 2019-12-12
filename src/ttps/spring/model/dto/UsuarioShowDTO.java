@@ -12,7 +12,7 @@ public class UsuarioShowDTO extends UsuarioDTO implements Serializable {
 	private String foto;
 	
 	public UsuarioShowDTO(Long id, String apellido, String nombre, String email, String fecha_nacimiento,
-			String telefono, Boolean activo, List<Rol> roles) {
+			String telefono, Boolean activo, List<String> roles) {
 		
 		super(id, apellido, nombre, email, fecha_nacimiento, telefono, activo, roles);
 	}

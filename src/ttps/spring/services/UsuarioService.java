@@ -211,7 +211,7 @@ public class UsuarioService {
 				   u.getFecha_nacimiento().toString(), 
 				   u.getTelefono(), 
 				   u.getActivo(),
-				   u.getRoles());
+				   u.getRolesNombres());
 
 		if( u.getMatricula() != null ) {
 			uDTO.setMatricula(u.getMatricula());
@@ -233,7 +233,7 @@ public class UsuarioService {
 				   u.getFecha_nacimiento().toString(), 
 				   u.getTelefono(), 
 				   u.getActivo(),
-				   u.getRoles());
+				   u.getRolesNombres());
 
 		//setear mascotas
 		uDTO.setMascotas( this.mascotaService.recuperarPorDuenio(u.getId()) );

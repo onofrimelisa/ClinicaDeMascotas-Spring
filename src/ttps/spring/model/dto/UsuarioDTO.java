@@ -15,7 +15,7 @@ public class UsuarioDTO implements Serializable {
 	private String fecha_nacimiento;
 	private String telefono;
 	private Boolean activo;	
-	private List<Rol> roles;	
+	private List<String> roles;	
 	
 //	veterinario
 	private String nombre_consultorio;
@@ -26,7 +26,7 @@ public class UsuarioDTO implements Serializable {
 	
 //	Constructor para el show
 	public UsuarioDTO(Long id, String apellido, String nombre, String email, String fecha_nacimiento, String telefono,
-			Boolean activo, List<Rol> roles) {
+			Boolean activo, List<String> roles) {
 		super();
 		this.id = id;
 		this.apellido = apellido;
@@ -39,7 +39,7 @@ public class UsuarioDTO implements Serializable {
 	}
 	
 	public UsuarioDTO(String apellido, String nombre, String email, String fecha_nacimiento, String telefono,
-			Boolean activo, List<Rol> roles) {
+			Boolean activo, List<String> roles) {
 		super();
 		this.apellido = apellido;
 		this.nombre = nombre;
@@ -122,12 +122,12 @@ public class UsuarioDTO implements Serializable {
 	}
 
 
-	public List<Rol> getRoles() {
+	public List<String> getRoles() {
 		return roles;
 	}
 
 
-	public void setRoles(List<Rol> roles) {
+	public void setRoles(List<String> roles) {
 		this.roles = roles;
 	}
 

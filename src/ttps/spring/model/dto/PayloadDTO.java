@@ -8,13 +8,13 @@ import ttps.spring.model.Rol;
 public class PayloadDTO implements Serializable{
 	
 	private Long usuario;
-	private List<Rol> roles;
+	private List<String> roles;
 	
 	public PayloadDTO() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public PayloadDTO(Long usuario, List<Rol> roles) {
+	public PayloadDTO(Long usuario, List<String> roles) {
 		super();
 		this.usuario = usuario;
 		this.roles = roles;
@@ -28,11 +28,11 @@ public class PayloadDTO implements Serializable{
 		this.usuario = usuario;
 	}
 
-	public List<Rol> getRoles() {
+	public List<String> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(List<Rol> roles) {
+	public void setRoles(List<String> roles) {
 		this.roles = roles;
 	}
 	

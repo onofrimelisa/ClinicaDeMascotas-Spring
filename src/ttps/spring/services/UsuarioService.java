@@ -125,8 +125,10 @@ public class UsuarioService {
 		Usuario usuario = this.usuarioDAO.recuperar(uDTO.getId());
 		
 //		además hay que chequear que el email que se quiere actualizar no exista en la bd
-		if ( (uDTO.getEmail() != usuario.getEmail()) && (this.usuarioDAO.recuperarPorEmail(uDTO.getEmail()) != null) ) {
-			return null;
+		if ( !uDTO.getEmail().equals(usuario.getEmail()) ) {
+			if( this.usuarioDAO.recuperarPorEmail(uDTO.getEmail()) != null) {
+				return null;		
+			}
 		}
 				
 		UsuarioUpdateDTO usuarioActualizadoDTO = new UsuarioUpdateDTO(  uDTO.getId(), 

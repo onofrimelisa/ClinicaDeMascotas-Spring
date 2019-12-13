@@ -40,21 +40,27 @@ public class FiltroToken implements Filter{
 		
 		String token = ((HttpServletRequest)request).getHeader(HttpHeaders.AUTHORIZATION);
 		HttpServletResponse res = (HttpServletResponse) response;
+		HttpServletRequest req = (HttpServletRequest) request;
 		
-		System.out.println("Paso por filtro");
-		System.out.println(token);
+		if(!req.getMethod().equals("OPTIONS") ){
+
+			System.out.println("Paso por filtro");
+			System.out.println(token);
+			
+			if (token == null || !TokenService.validateToken(token)) {
+	        	Map<String, Object> error = new HashMap<>();
+	        	error.put("error", "Token inválido");
+	        	
+	        	res.setStatus(HttpStatus.BAD_REQUEST.value());
+	        	res.setContentType(MediaType.APPLICATION_JSON_VALUE);
+	        	
+	        	mapper.writeValue(res.getWriter(), error);
+	        }
+	    	
+	        chain.doFilter(request, response);
+		}
 		
-		if (token == null || !TokenService.validateToken(token)) {
-        	Map<String, Object> error = new HashMap<>();
-        	error.put("error", "Token inválido");
-        	
-        	res.setStatus(HttpStatus.BAD_REQUEST.value());
-        	res.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        	
-        	mapper.writeValue(res.getWriter(), error);
-        }
-    	
-        chain.doFilter(request, response);
+		
 	}
 
 	@Override

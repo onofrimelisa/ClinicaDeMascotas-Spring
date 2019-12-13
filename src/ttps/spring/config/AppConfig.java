@@ -24,7 +24,7 @@ public class AppConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
         		.allowedOrigins("*")
-        		.allowedHeaders("x-requested-with", "content-type", "Authorization")
+        		.allowedHeaders("x-requested-with", "Content-Type", "Authorization")
         		.allowedMethods("POST","GET","PUT","DELETE","OPTIONS");
     }
 }

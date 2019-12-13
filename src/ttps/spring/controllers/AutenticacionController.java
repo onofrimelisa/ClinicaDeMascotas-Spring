@@ -44,15 +44,16 @@ public class AutenticacionController {
 		if(usuario == null) {
 			res.put("error", "Credenciales incorrectas");
 			return new ResponseEntity<Map<String,Object>>(res, HttpStatus.BAD_REQUEST);
-		}
+		}new ResponseEntity<Map<String,Object>>(res, HttpStatus.BAD_REQUEST);
+				
 		
-		if (usuario.getActivo() == false ) {
-			res.put("error", "Todavía no es un usuario activo.");
+		if (!usuario.getActivo()) {
+			res.put("error", "Ese usuario está inactivo, debe esperar activación por parte de nuestro administrador.");
 			return new ResponseEntity<Map<String,Object>>(res, HttpStatus.BAD_REQUEST);
 		}
 		
 		//Creo payload
-		PayloadDTO payload = new PayloadDTO(usuario.getId(), usuario.getRoles());
+		PayloadDTO payload = new PayloadDTO(usuario.getId(), usuario.getRoles(), usuario.getActivo());
 		
 		//Genero token
 		String token = tokenService.generateToken(payload, EXPIRATION_IN_SEC);		

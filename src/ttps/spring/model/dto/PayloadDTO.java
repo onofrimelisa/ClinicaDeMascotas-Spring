@@ -9,15 +9,17 @@ public class PayloadDTO implements Serializable{
 	
 	private Long usuario;
 	private List<String> roles;
+	private boolean activo;
 	
 	public PayloadDTO() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public PayloadDTO(Long usuario, List<String> roles) {
+	public PayloadDTO(Long usuario, List<String> roles, boolean activo) {
 		super();
 		this.usuario = usuario;
 		this.roles = roles;
+		this.activo = activo;
 	}
 
 	public Long getUsuario() {
@@ -35,6 +37,16 @@ public class PayloadDTO implements Serializable{
 	public void setRoles(List<String> roles) {
 		this.roles = roles;
 	}
+
+	public boolean isActivo() {
+		return activo;
+	}
+
+	public void setActivo(boolean activo) {
+		this.activo = activo;
+	}
+	
+	
 	
 	
 	

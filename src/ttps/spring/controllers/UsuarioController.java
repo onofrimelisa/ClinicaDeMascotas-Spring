@@ -1,5 +1,6 @@
 package ttps.spring.controllers;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,8 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ttps.spring.model.dto.UsuarioDTO;
 import ttps.spring.model.dto.UsuarioUpdateDTO;
-import ttps.spring.model.dto.UsuarioUpdatePersonalesDTO;
-import ttps.spring.model.dto.UsuarioUpdateProfesionalesDTO;
 import ttps.spring.services.UsuarioService;
 
 @RestController
@@ -76,8 +75,8 @@ public class UsuarioController {
 	
 	}
 	
-	@PutMapping("/personales/{id}")
-	public ResponseEntity<Map<String, Object>> modificarDatosPersonales ( @PathVariable("id") Long id, @RequestBody UsuarioUpdatePersonalesDTO uDTO){
+	@PutMapping("/{id}")
+	public ResponseEntity<Map<String, Object>> actualizar( @PathVariable("id") Long id, @RequestBody UsuarioUpdateDTO uDTO){
 		
 		UsuarioDTO usuario = usuarioService.recuperar(id);
 		HashMap<String, Object> res = new HashMap<>();
@@ -86,7 +85,13 @@ public class UsuarioController {
 			return new ResponseEntity<Map<String,Object>>(HttpStatus.NO_CONTENT);
 		}
 		
-		UsuarioUpdateDTO usuarioActualizado = this.usuarioService.actualizarPersonales(uDTO);
+		if (!this.edadValida(uDTO.getFecha_nacimiento())) {
+			res.put("error", "Debe ser mayor a 18 años.");
+			return new ResponseEntity<Map<String, Object>>(res, HttpStatus.BAD_REQUEST);
+		}
+		
+
+		UsuarioUpdateDTO usuarioActualizado = this.usuarioService.actualizar(uDTO);
 		
 		if(usuarioActualizado == null) {
 			res.put("error", "El email seleccionado ya existe");
@@ -99,20 +104,25 @@ public class UsuarioController {
 	}
 	
 	
-	@PutMapping("/profesionales/{id}")
-	public ResponseEntity<Map<String, Object>> modificarDatosProfesionales ( @PathVariable("id") Long id, @RequestBody UsuarioUpdateProfesionalesDTO uDTO){
-		UsuarioDTO usuario = usuarioService.recuperar(id);
-		HashMap<String, Object> res = new HashMap<>();
-		
-		if(usuario == null || usuario.getId() != uDTO.getId()) {
-			return new ResponseEntity<Map<String,Object>>(HttpStatus.NO_CONTENT);
-		}
-		
-		UsuarioUpdateDTO usuarioActualizado = this.usuarioService.actualizarProfesionales(uDTO);
-		
-		res.put("usuario", usuarioActualizado);
-		return new ResponseEntity<Map<String, Object>>(res, HttpStatus.OK);
-		
+	// ==================
+	// VALIDACIONES
+	// ==================
+	
+	
+	private boolean edadValida(String fecha_nacimiento) {
+		String[] fechaNac = fecha_nacimiento.split("-");
+		Calendar fechaActual = Calendar.getInstance();
+		 
+        // Cálculo de las diferencias.
+        int years = fechaActual.get(Calendar.YEAR) - Integer.valueOf(fechaNac[0]);
+        int months = fechaActual.get(Calendar.MONTH) + 1 - Integer.valueOf(fechaNac[1]);
+        int days = fechaActual.get(Calendar.DAY_OF_MONTH) - Integer.valueOf(fechaNac[2]);
+        
+        if ( ( years > 18 ) || ( years == 18 && months  >= 0 && days >= 0 ) ){
+        	return true;
+        }
+        
+        return false;
 	}
 	
 	

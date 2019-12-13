@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class UsuarioUpdateDTO implements Serializable{
 	
-	private String password;
+	private Long id;
 	private String foto;
 	private String apellido;
 	private String nombre;
@@ -21,11 +21,11 @@ public class UsuarioUpdateDTO implements Serializable{
 		
 	}
 
-	public UsuarioUpdateDTO(String password, String foto, String apellido, String nombre, String email,
+	public UsuarioUpdateDTO( Long id, String foto, String apellido, String nombre, String email,
 			String fecha_nacimiento, String telefono, String nombre_consultorio, String domicilio_consultorio,
 			String matricula) {
 		super();
-		this.password = password;
+		this.id = id;
 		this.foto = foto;
 		this.apellido = apellido;
 		this.nombre = nombre;
@@ -37,12 +37,13 @@ public class UsuarioUpdateDTO implements Serializable{
 		this.matricula = matricula;
 	}
 
-	public String getPassword() {
-		return password;
+	
+	public Long getId() {
+		return id;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getFoto() {

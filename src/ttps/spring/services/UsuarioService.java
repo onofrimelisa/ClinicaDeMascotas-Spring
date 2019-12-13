@@ -16,8 +16,6 @@ import ttps.spring.model.dto.UsuarioDTO;
 import ttps.spring.model.dto.UsuarioNuevoDTO;
 import ttps.spring.model.dto.UsuarioShowDTO;
 import ttps.spring.model.dto.UsuarioUpdateDTO;
-import ttps.spring.model.dto.UsuarioUpdatePersonalesDTO;
-import ttps.spring.model.dto.UsuarioUpdateProfesionalesDTO;
 
 @Service("usuarioService")
 public class UsuarioService {
@@ -122,76 +120,46 @@ public class UsuarioService {
 	}
 	
 	@Transactional
-	public UsuarioUpdateDTO actualizarPersonales( UsuarioUpdatePersonalesDTO uPersonalesDTO) {
+	public UsuarioUpdateDTO actualizar( UsuarioUpdateDTO uDTO) {
 		
-		Usuario usuario = this.usuarioDAO.recuperar(uPersonalesDTO.getId());
+		Usuario usuario = this.usuarioDAO.recuperar(uDTO.getId());
 		
-//		además hay que chequear que el email que se quiere actualizar no ecxista en la bd
-		if ( (uPersonalesDTO.getEmail() != usuario.getEmail()) && (this.usuarioDAO.recuperarPorEmail(uPersonalesDTO.getEmail()) != null) ) {
+//		además hay que chequear que el email que se quiere actualizar no exista en la bd
+		if ( (uDTO.getEmail() != usuario.getEmail()) && (this.usuarioDAO.recuperarPorEmail(uDTO.getEmail()) != null) ) {
 			return null;
 		}
 				
-		UsuarioUpdateDTO usuarioActualizadoDTO = new UsuarioUpdateDTO(uPersonalesDTO.getPassword(), 
-																		uPersonalesDTO.getFoto(), 
-																		uPersonalesDTO.getApellido(), 
-																		uPersonalesDTO.getNombre(), 
-																		uPersonalesDTO.getEmail(), 
-																		uPersonalesDTO.getFecha_nacimiento(), 
-																		uPersonalesDTO.getTelefono(), 
-																		usuario.getNombre_consultorio(), 
-																		usuario.getDomicilio_consultorio(), 
-																		usuario.getMatricula() );
+		UsuarioUpdateDTO usuarioActualizadoDTO = new UsuarioUpdateDTO(  uDTO.getId(), 
+																		uDTO.getFoto(), 
+																		uDTO.getApellido(), 
+																		uDTO.getNombre(), 
+																		uDTO.getEmail(), 
+																		uDTO.getFecha_nacimiento(), 
+																		uDTO.getTelefono(), 
+																		uDTO.getNombre_consultorio(), 
+																		uDTO.getDomicilio_consultorio(), 
+																		uDTO.getMatricula() );
 		
-		Usuario usuarioActualizado = this.actualizarPersonales( usuario, usuarioActualizadoDTO);		
+		Usuario usuarioActualizado = this.actualizar( usuario, usuarioActualizadoDTO);		
 	    usuarioActualizado = this.usuarioDAO.actualizar(usuarioActualizado);
 		
 		return usuarioActualizadoDTO;
 	}
-	
-	@Transactional
-	public UsuarioUpdateDTO actualizarProfesionales( UsuarioUpdateProfesionalesDTO uProfesionalesDTO) {
-		Usuario usuario = this.usuarioDAO.recuperar(uProfesionalesDTO.getId());
-						
-		UsuarioUpdateDTO usuarioActualizadoDTO = new UsuarioUpdateDTO (usuario.getPassword(), 
-																		usuario.getFoto(), 
-																		usuario.getApellido(), 
-																		usuario.getNombre(), 
-																		usuario.getEmail(), 
-																		usuario.getFecha_nacimiento().toString(), 
-																		usuario.getTelefono(), 
-																		uProfesionalesDTO.getNombre_consultorio(), 
-																		uProfesionalesDTO.getDomicilio_consultorio(), 
-																		uProfesionalesDTO.getMatricula() );
-		
-		Usuario usuarioActualizado = this.actualizarProfesionales( usuario, usuarioActualizadoDTO);		
-	    usuarioActualizado = this.usuarioDAO.actualizar(usuarioActualizado);
-		
-		return usuarioActualizadoDTO;
-	}
+
 	
 	
 	//============================
 	//    OPERACIONES PRIVADAS
 	//============================
 	
-	private Usuario actualizarPersonales( Usuario u, UsuarioUpdateDTO uActualizado) {
-		
-//		seteo solo los datos personales, los otros quedan como estaban
-		u.setPassword(uActualizado.getPassword());
+	private Usuario actualizar( Usuario u, UsuarioUpdateDTO uActualizado) {
+				
 		u.setFoto(uActualizado.getFoto());
 		u.setApellido(uActualizado.getApellido());
 		u.setNombre(uActualizado.getNombre());
 		u.setEmail(uActualizado.getEmail());
 		u.setFecha_nacimiento(Date.valueOf(uActualizado.getFecha_nacimiento()));
 		u.setTelefono(uActualizado.getTelefono());
-		
-		return u;
-		
-	}
-	
-	private Usuario actualizarProfesionales( Usuario u, UsuarioUpdateDTO uActualizado) {
-		
-//		seteo solo los datos profesionales, los otros quedan como estaban
 		u.setMatricula( uActualizado.getMatricula() );
 		u.setDomicilio_consultorio( uActualizado.getDomicilio_consultorio() );
 		u.setNombre_consultorio( uActualizado.getNombre_consultorio());
@@ -199,6 +167,7 @@ public class UsuarioService {
 		return u;
 		
 	}
+	
 	
 	private UsuarioDTO procesarUsuario( Usuario u ) {
 		

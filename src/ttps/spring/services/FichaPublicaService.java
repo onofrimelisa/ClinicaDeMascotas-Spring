@@ -109,7 +109,10 @@ public class FichaPublicaService {
 		FichaPublica nueva_ficha = new FichaPublica();
 		
 		nueva_ficha.setNombre(ficha_publica.getNombre());
-		nueva_ficha.setFecha_nacimiento( Date.valueOf( ficha_publica.getFecha_nacimiento() ) );
+		if(ficha_publica.getFecha_nacimiento() != null) {
+			nueva_ficha.setFecha_nacimiento( Date.valueOf( ficha_publica.getFecha_nacimiento() ) );
+			
+		}
 		nueva_ficha.setEspecie(ficha_publica.getEspecie());
 		nueva_ficha.setRaza(ficha_publica.getRaza());
 		nueva_ficha.setSenias(ficha_publica.getSenias());

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,7 +35,8 @@ public class MascotaController {
 		List<MascotaDTO> mascotas = mascotaService.recuperarPorDuenio(duenio);
 		
 		if (mascotas == null || mascotas.isEmpty()) {
-			return new ResponseEntity<Map<String, Object>>(HttpStatus.NO_CONTENT);
+			res.put("mascotas", null);
+			return new ResponseEntity<Map<String, Object>>(res, HttpStatus.NO_CONTENT);
 		}
 		
 		res.put("total", mascotas.size());
@@ -57,6 +59,20 @@ public class MascotaController {
 		res.put("mascota", mascotaNueva);
 		return new ResponseEntity<Map<String, Object>>(res, HttpStatus.OK);
 		
+		
+	}
+	
+	@DeleteMapping("/{mascota}/{duenio}")
+	public ResponseEntity<Map<String, Object>> borrarMascota( @PathVariable("mascota") Long id, @PathVariable("duenio") Long duenio){
+		HashMap<String, Object> res = new HashMap();
+		
+		boolean elimino = this.mascotaService.eliminarMascota(id, duenio);
+		
+		if (!elimino) {
+			return new ResponseEntity<Map<String, Object>>(res, HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<Map<String, Object>>(res, HttpStatus.OK);
 		
 	}
 }

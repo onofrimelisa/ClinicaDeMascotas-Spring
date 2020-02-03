@@ -84,6 +84,27 @@ public class MascotaService {
 		return mascota;
 	}
 	
+	@Transactional
+	public boolean eliminarMascota(Long id, Long duenio) {
+		
+		Usuario user = this.usuarioDAO.recuperar(duenio);
+		Mascota mascotaABorrar = this.mascotaDAO.recuperar(id);
+		
+		if((user == null) || (mascotaABorrar == null)) {
+			return false;
+		}
+		
+//		chequeo que solo el mismo duenio pueda borrar a su mascota
+		if(mascotaABorrar.getDuenio().getId() != duenio) {
+			return false;
+		}
+		
+		mascotaDAO.borrar(id);
+		user = this.usuarioDAO.actualizar(user);
+		return true;
+		
+	}
+	
 	
 	//============================
 	//    OPERACIONES PRIVADAS

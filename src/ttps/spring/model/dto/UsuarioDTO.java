@@ -52,6 +52,10 @@ public class UsuarioDTO implements Serializable {
 
 
 
+	public UsuarioDTO() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public Long getId() {
 		return id;
 	}

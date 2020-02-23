@@ -43,9 +43,6 @@ public class FiltroToken implements Filter{
 		HttpServletRequest req = (HttpServletRequest) request;
 		
 		if(!req.getMethod().equals("OPTIONS") ){
-
-			System.out.println("Paso por filtro");
-			System.out.println(token);
 			
 			if (token == null || !TokenService.validateToken(token)) {
 	        	Map<String, Object> error = new HashMap<>();

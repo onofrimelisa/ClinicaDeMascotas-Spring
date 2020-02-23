@@ -70,19 +70,13 @@ public class UsuarioDAOHibernateJPA extends GenericDAOHibernateJPA<Usuario> impl
 	}
 	
 	public boolean tieneRol (Usuario usuario, Rol rol) {
-		Query consulta = this.getEntityManager()
-				.createQuery("FROM Usuario_tiene_rol"
-							+" WHERE id_usuario = :id_usuario and id_rol = :id_rol");
-
-		consulta.setParameter("id_usuario", usuario.getId());
-		consulta.setParameter("id_rol", rol.getId());
-		
-		try {
-			return (Boolean)consulta.getSingleResult();
-		}
-		catch(Exception e) {
-			return false;
-		}
+		return usuario.getRoles().contains(rol)	;
+	}
+	
+	public Usuario eliminarRol (Usuario usuario, Rol rol) {
+		usuario.getRoles().remove(rol);
+		usuario = this.actualizar(usuario);
+		return usuario;
 	}
 	
 	

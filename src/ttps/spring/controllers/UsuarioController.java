@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -101,6 +102,24 @@ public class UsuarioController {
 		res.put("usuario", usuarioActualizado);
 		return new ResponseEntity<Map<String, Object>>(res, HttpStatus.OK);
 		
+	}
+	
+
+	@DeleteMapping("/{rol}/{id}")
+	public ResponseEntity<Map<String,Object>> eliminarPorRol( @PathVariable("rol") String rol, @PathVariable("id") Long id){
+		
+		UsuarioDTO usuario = usuarioService.recuperar(id);
+		HashMap<String, Object> res = new HashMap<>();
+		
+		if(usuario == null) {
+			return new ResponseEntity<Map<String,Object>>(HttpStatus.NO_CONTENT);
+		}
+
+		UsuarioDTO usuarioBorrado = usuarioService.eliminar(usuario, rol);
+
+		res.put("usuario", usuarioBorrado);
+			
+		return new ResponseEntity<Map<String,Object>>(res, HttpStatus.OK);
 	}
 	
 	

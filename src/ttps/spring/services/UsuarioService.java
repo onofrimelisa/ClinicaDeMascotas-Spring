@@ -152,28 +152,24 @@ public class UsuarioService {
 	}
 	
 	@Transactional
-	public UsuarioDTO eliminar( UsuarioDTO uDTO, String rol ) {
+	public UsuarioDTO eliminarPorRol( UsuarioDTO uDTO, String rol ) {
 		
 //		si tiene un solo rol, lo elimino directamente de la tabla Usuario.
 //		Si tiene solo mas de un rol, no elimino el usuario en si, sino solo la relacion user-rol del rol que me pasan como parametro
 		Usuario usuario = this.usuarioDAO.recuperar(uDTO.getId());
-		UsuarioDTO usuarioDTO = new UsuarioDTO();
+		UsuarioDTO usuarioDTO = null;
 		
 		if (usuario.getRoles().size() > 1) {
-			System.out.println("tiene mas de un rol");
+//			tiene mas de un rol, elimino solo el rol que llega como parametro
 			Rol _rol = rolDAO.recuperarPorNombre(rol);
-			System.out.println(_rol.getNombre());
+			
 			if ( usuarioDAO.tieneRol(usuario, _rol)) {
-				System.out.println("tiene ese rol, lo borro");
 				usuario = usuarioDAO.eliminarRol(usuario, _rol);
 				usuarioDTO = this.procesarUsuario(usuario);
-			}else {
-				System.out.println("no tiene ese rol");
-			}
-			
+			}			
 			
 		}else {
-			System.out.println("tiene un solo rol");
+			
 			Usuario usuarioBorrado = this.usuarioDAO.borrar( uDTO.getId() );
 			usuarioDTO =  this.procesarUsuario(usuarioBorrado);
 		}

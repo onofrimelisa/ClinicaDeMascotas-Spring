@@ -115,10 +115,13 @@ public class UsuarioController {
 			return new ResponseEntity<Map<String,Object>>(HttpStatus.NO_CONTENT);
 		}
 
-		UsuarioDTO usuarioBorrado = usuarioService.eliminar(usuario, rol);
+		UsuarioDTO usuarioBorrado = usuarioService.eliminarPorRol(usuario, rol);
+		
+		if(usuarioBorrado == null) {
+			return new ResponseEntity<Map<String,Object>>(HttpStatus.BAD_REQUEST);
+		}
 
-		res.put("usuario", usuarioBorrado);
-			
+		res.put("usuario", usuarioBorrado);			
 		return new ResponseEntity<Map<String,Object>>(res, HttpStatus.OK);
 	}
 	

@@ -108,6 +108,9 @@ public class UsuarioService {
 //		si el rol es veterinario, seteo activo en 0
 		if ( rol.getNombre().equals( "veterinario" ) ) {
 			usuarioNuevo.setActivo(false);
+			usuarioNuevo.setMatricula(uDTO.getMatricula());
+			usuarioNuevo.setNombre_consultorio(uDTO.getNombre_consultorio());
+			usuarioNuevo.setDomicilio_consultorio(uDTO.getDomicilio_consultorio());
 		}
 		
 		usuarioNuevo = this.usuarioDAO.persistir( usuarioNuevo );

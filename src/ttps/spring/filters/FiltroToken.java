@@ -35,29 +35,27 @@ public class FiltroToken implements Filter{
 	}
 
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-			throws IOException, ServletException {
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		
-		String token = ((HttpServletRequest)request).getHeader(HttpHeaders.AUTHORIZATION);
-		HttpServletResponse res = (HttpServletResponse) response;
-		HttpServletRequest req = (HttpServletRequest) request;
-		
-		if(!req.getMethod().equals("OPTIONS") ){
+			String token = ((HttpServletRequest)request).getHeader(HttpHeaders.AUTHORIZATION);
+			HttpServletResponse res = (HttpServletResponse) response;
+			HttpServletRequest req = (HttpServletRequest) request;
 			
-			if (token == null || !TokenService.validateToken(token)) {
-	        	Map<String, Object> error = new HashMap<>();
-	        	error.put("error", "Token inválido");
-	        	
-	        	res.setStatus(HttpStatus.BAD_REQUEST.value());
-	        	res.setContentType(MediaType.APPLICATION_JSON_VALUE);
-	        	
-	        	mapper.writeValue(res.getWriter(), error);
-	        }
-	    	
-	        chain.doFilter(request, response);
-		}
-		
-		
+			if(!req.getMethod().equals("OPTIONS") ){
+				
+				if (token == null || !TokenService.validateToken(token)) {
+		        	Map<String, Object> error = new HashMap<>();
+		        	error.put("error", "Token inválido");
+		        	
+		        	res.setStatus(HttpStatus.BAD_REQUEST.value());
+		        	res.setContentType(MediaType.APPLICATION_JSON_VALUE);
+		        	
+		        	mapper.writeValue(res.getWriter(), error);
+		        }
+		    	
+			}
+			
+			chain.doFilter(req, res);
 	}
 
 	@Override

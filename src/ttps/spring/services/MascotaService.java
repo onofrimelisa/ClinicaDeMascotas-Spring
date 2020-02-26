@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ttps.spring.jpa.MascotaDAOHibernateJPA;
+import ttps.spring.jpa.RolDAOHibernateJPA;
 import ttps.spring.jpa.UsuarioDAOHibernateJPA;
 import ttps.spring.model.Mascota;
+import ttps.spring.model.Rol;
 import ttps.spring.model.Usuario;
 import ttps.spring.model.dto.MascotaDTO;
 
@@ -19,13 +21,15 @@ import ttps.spring.model.dto.MascotaDTO;
 public class MascotaService {
 
 	private MascotaDAOHibernateJPA mascotaDAO;	
-	private UsuarioDAOHibernateJPA usuarioDAO;	
+	private UsuarioDAOHibernateJPA usuarioDAO;
+	private RolDAOHibernateJPA rolDAO;	
 	
 	@Autowired
-	public MascotaService(MascotaDAOHibernateJPA mascotaDAO, UsuarioDAOHibernateJPA usuarioDAO) {
+	public MascotaService(MascotaDAOHibernateJPA mascotaDAO, UsuarioDAOHibernateJPA usuarioDAO, RolDAOHibernateJPA rolDAO) {
 		super();
 		this.mascotaDAO = mascotaDAO;
 		this.usuarioDAO = usuarioDAO;
+		this.rolDAO = rolDAO;
 	}
 	
 	public MascotaService() {
@@ -35,17 +39,29 @@ public class MascotaService {
 	// METODOS
 	
 	@Transactional
-	public List<MascotaDTO> recuperarPorDuenio(Long u){
-		
-		
+	public List<MascotaDTO> recuperarPorUsuario(Long u, String r){
+				
 		List<MascotaDTO> mascotasDTO = new ArrayList<MascotaDTO>();
+		List<Mascota> mascotas;
 		
-		Usuario duenio = usuarioDAO.recuperar(u);
-		if(duenio == null) {
+		Usuario usuario = usuarioDAO.recuperar(u);
+		if(usuario == null) {
 			return null;
 		}
-
-		List<Mascota> mascotas = duenio.getMascotas();
+		
+		Rol rol = rolDAO.recuperarPorNombre(r);
+		
+		if( rol == null || (!rol.getNombre().equals("veterinario") && !rol.getNombre().equals("duenio"))) {
+			
+			return null;
+		}
+		System.out.println(rol.getNombre());
+		if(rol.getNombre().equals("veterinario")) {
+			System.out.println("es vete");
+			mascotas = usuario.getMascotas_atendidas();
+		}else {
+			mascotas = usuario.getMascotas();
+		}		
 		
 		for (Mascota m : mascotas) {
 			mascotasDTO.add(this.procesarMascota(m));

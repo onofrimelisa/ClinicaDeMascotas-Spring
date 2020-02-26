@@ -27,12 +27,13 @@ public class MascotaController {
 	@Autowired
 	MascotaService mascotaService;
 	
-	@GetMapping("/duenio/{duenio}")
-	public ResponseEntity<Map<String, Object>> recuperarPorDuenio( @PathVariable("duenio") Long duenio){
+	@GetMapping("/{rol}/{usuario}")
+	public ResponseEntity<Map<String, Object>> recuperarPorDuenio( @PathVariable("usuario") Long usuario, @PathVariable("rol") String rol){
 //		
 		HashMap<String, Object> res = new HashMap();
 		
-		List<MascotaDTO> mascotas = mascotaService.recuperarPorDuenio(duenio);
+		
+		List<MascotaDTO> mascotas = mascotaService.recuperarPorUsuario(usuario, rol);
 		
 		if (mascotas == null || mascotas.isEmpty()) {
 			res.put("mascotas", null);

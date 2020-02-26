@@ -243,7 +243,7 @@ public class UsuarioService {
 				   u.getRolesNombres());
 
 		//setear mascotas
-		uDTO.setMascotas( this.mascotaService.recuperarPorDuenio(u.getId()) );
+		uDTO.setMascotas( this.mascotaService.recuperarPorUsuario(u.getId(), "duenio") );
 		
 		//foto
 		uDTO.setFoto(u.getFoto());

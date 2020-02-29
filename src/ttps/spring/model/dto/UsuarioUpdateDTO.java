@@ -11,6 +11,7 @@ public class UsuarioUpdateDTO implements Serializable{
 	private String email;
 	private String fecha_nacimiento;
 	private String telefono;
+	private boolean activo;
 	
 //	veterinario
 	private String nombre_consultorio;
@@ -23,7 +24,7 @@ public class UsuarioUpdateDTO implements Serializable{
 
 	public UsuarioUpdateDTO( Long id, String foto, String apellido, String nombre, String email,
 			String fecha_nacimiento, String telefono, String nombre_consultorio, String domicilio_consultorio,
-			String matricula) {
+			String matricula, boolean activo) {
 		super();
 		this.id = id;
 		this.foto = foto;
@@ -35,9 +36,20 @@ public class UsuarioUpdateDTO implements Serializable{
 		this.nombre_consultorio = nombre_consultorio;
 		this.domicilio_consultorio = domicilio_consultorio;
 		this.matricula = matricula;
+		this.activo = activo;
 	}
+	
+	
 
 	
+	public boolean getActivo() {
+		return activo;
+	}
+
+	public void setActivo(boolean activo) {
+		this.activo = activo;
+	}
+
 	public Long getId() {
 		return id;
 	}

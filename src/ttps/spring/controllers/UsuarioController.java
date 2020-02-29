@@ -54,7 +54,6 @@ public class UsuarioController {
 		if(usuarios.isEmpty()) {
 			return new ResponseEntity<Map<String,Object>>(HttpStatus.NO_CONTENT);
 		}
-		
 		res.put("total", usuarios.size());
 		res.put("usuarios", usuarios);
 		

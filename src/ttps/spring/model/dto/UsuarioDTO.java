@@ -50,8 +50,6 @@ public class UsuarioDTO implements Serializable {
 		this.roles = roles;
 	}
 
-
-
 	public UsuarioDTO() {
 		// TODO Auto-generated constructor stub
 	}

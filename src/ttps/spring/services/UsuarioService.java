@@ -64,7 +64,7 @@ public class UsuarioService {
 		List<UsuarioDTO> usuariosDTO = new ArrayList<UsuarioDTO>();
 		
 		for (Usuario u : usuarios) {
-			usuariosDTO.add(this.procesarUsuario(u));
+			usuariosDTO.add(this.procesarUsuarioShow(u));
 		}
 		
 		return usuariosDTO;
@@ -128,7 +128,7 @@ public class UsuarioService {
 		Usuario usuario = this.usuarioDAO.recuperar(uDTO.getId());
 		
 //		además hay que chequear que el email que se quiere actualizar no exista en la bd
-		if ( !uDTO.getEmail().equals(usuario.getEmail()) ) {
+		if ( !uDTO.getEmail().equals(usuario.getEmail())) {
 			if( this.usuarioDAO.recuperarPorEmail(uDTO.getEmail()) != null) {
 				return null;		
 			}
@@ -143,10 +143,12 @@ public class UsuarioService {
 																		uDTO.getTelefono(), 
 																		uDTO.getNombre_consultorio(), 
 																		uDTO.getDomicilio_consultorio(), 
-																		uDTO.getMatricula() );
+																		uDTO.getMatricula(), 
+																		uDTO.getActivo());
 		
 		Usuario usuarioActualizado = this.actualizar( usuario, usuarioActualizadoDTO);		
 	    usuarioActualizado = this.usuarioDAO.actualizar(usuarioActualizado);
+	    System.out.println(usuarioActualizado.getActivo());
 		
 		return usuarioActualizadoDTO;
 	}
@@ -197,6 +199,7 @@ public class UsuarioService {
 		u.setMatricula( uActualizado.getMatricula() );
 		u.setDomicilio_consultorio( uActualizado.getDomicilio_consultorio() );
 		u.setNombre_consultorio( uActualizado.getNombre_consultorio());
+		u.setActivo(uActualizado.getActivo());
 		
 		return u;
 		
@@ -253,7 +256,7 @@ public class UsuarioService {
 			uDTO.setDomicilio_consultorio(u.getDomicilio_consultorio());
 			uDTO.setNombre_consultorio(u.getNombre_consultorio());
 			//setear mascotas atendidas
-//			uDTO.setMascotas_atendidas(u.getMascotas_atendidas());
+			uDTO.setMascotas_atendidas(this.mascotaService.recuperarPorUsuario(u.getId(), "veterinario"));
 		}
 		
 		return uDTO;

@@ -38,7 +38,7 @@ public class FichaPublicaService {
 		
 		List<FichaPublicaDTO> fichasDTO= new ArrayList<FichaPublicaDTO>();
 		
-		List<FichaPublica> fichas = fichaPublicaDAO.recuperarTodos("id");
+		List<FichaPublica> fichas = fichaPublicaDAO.recuperarTodos("RAND()");
 		
 		for (FichaPublica f: fichas) {
 //			devuelve solo las que tengan fotos cargadas

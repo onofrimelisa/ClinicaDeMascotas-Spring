@@ -77,7 +77,9 @@ public class MascotaService {
 //		chequeo si existe el usuario
 		
 		Usuario duenio = this.usuarioDAO.recuperar(Long.valueOf(mascota.getDuenio()));
-		if (duenio == null) {
+		
+		Usuario veterinario = this.usuarioDAO.recuperar(Long.valueOf(mascota.getVeterinario()));
+		if (duenio == null || veterinario == null) {
 			return null;
 		}
 		
@@ -90,6 +92,7 @@ public class MascotaService {
 										   mascota.getSenias(), 
 										   duenio,
 										   mascota.getFoto());
+		nuevaMascota.setVeterinario(veterinario);
 		
 		nuevaMascota = this.mascotaDAO.persistir( nuevaMascota );
 		duenio.agregarMascota(nuevaMascota);

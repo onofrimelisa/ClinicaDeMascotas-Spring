@@ -42,24 +42,6 @@ public class FichaPublicaController {
 		
 	}
 	
-	@GetMapping("/recuperar/{cantidad}")
-	public ResponseEntity<Map<String,Object>> recuperarTodos( @PathVariable("cantidad")String cantidad) {
-		
-		List<FichaPublicaDTO> fichas_publicas = fichaPublicaService.recuperarCantidad(cantidad);
-;		
-		HashMap<String, Object> res = new HashMap<>();
-		
-		if (fichas_publicas == null) {
-			res.put("error", "La cantidad solicitada excede el tamaño de la colección de fichas públicas.");
-			return new ResponseEntity<Map<String,Object>>(res, HttpStatus.BAD_REQUEST);
-		}
-		
-		res.put("total", cantidad);
-		res.put("fichas_publicas", fichas_publicas);
-		return new ResponseEntity<Map<String,Object>>(res, HttpStatus.OK);
-		
-	}
-	
 	@GetMapping("/{id}")
 	public ResponseEntity<Map<String,Object>> recuperarPorID( @PathVariable("id") Long id) {
 		

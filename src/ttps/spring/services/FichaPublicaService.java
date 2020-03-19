@@ -56,31 +56,6 @@ public class FichaPublicaService {
 		
 	}
 	
-//	RECUPERAR UN NUMERO DETERMINADO DE FICHAS, SE USA PARA MOSTRARLAS EN EL HOME
-	@Transactional
-	public List<FichaPublicaDTO> recuperarCantidad (String unaCantidad ){
-		
-		List<FichaPublicaDTO> fichasDTO= new ArrayList<FichaPublicaDTO>();
-		
-		Integer cantidad = fichaPublicaDAO.getCantidadFichasConFoto();
-		
-		if (cantidad < Integer.valueOf(unaCantidad)) {
-			return null;
-		}
-		
-		List<FichaPublica> fichas = fichaPublicaDAO.recuperarCantidad( unaCantidad );
-		
-		for (FichaPublica f: fichas) {
-				FichaPublicaDTO ficha = new FichaPublicaDTO(f.getId());
-				
-				ficha = this.procesarFichaPublica(f);
-				
-				fichasDTO.add(ficha);		
-		}
-		
-		return fichasDTO;
-	}
-	
 	@Transactional
 	public FichaPublicaDTO recuperarPorID( Long id) {
 		

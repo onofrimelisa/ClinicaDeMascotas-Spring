@@ -77,11 +77,18 @@ public class MascotaService {
 //		chequeo si existe el usuario
 		
 		Usuario duenio = this.usuarioDAO.recuperar(Long.valueOf(mascota.getDuenio()));
-		
-		Usuario veterinario = this.usuarioDAO.recuperar(Long.valueOf(mascota.getVeterinario()));
-		if (duenio == null || veterinario == null) {
+		if (duenio == null ) {
 			return null;
 		}
+		Usuario veterinario = null;
+		
+		if (mascota.getVeterinario() != "") {
+			veterinario = this.usuarioDAO.recuperar(Long.valueOf(mascota.getVeterinario()));
+			if (veterinario == null ) {
+				return null;
+			}
+		}
+			
 		
 		Mascota nuevaMascota = new Mascota(mascota.getNombre(), 
 										   Date.valueOf(mascota.getFecha_nacimiento()), 
@@ -96,7 +103,9 @@ public class MascotaService {
 		
 		nuevaMascota = this.mascotaDAO.persistir( nuevaMascota );
 		duenio.agregarMascota(nuevaMascota);
-		duenio = this.usuarioDAO.actualizar(duenio);
+		
+//		si la linea de abajo se descomenta, la mascota se agrega dos veces
+//		duenio = this.usuarioDAO.actualizar(duenio);
 			
 //		seteo el nuevo id
 		mascota.setId(nuevaMascota.getId());
@@ -104,7 +113,7 @@ public class MascotaService {
 	}
 	
 	@Transactional
-	public boolean eliminarMascota(Long id, Long duenio) {
+	public boolean eliminarMascotaDuenio(Long id, Long duenio) {
 		
 		Usuario user = this.usuarioDAO.recuperar(duenio);
 		Mascota mascotaABorrar = this.mascotaDAO.recuperar(id);
@@ -119,6 +128,30 @@ public class MascotaService {
 		}
 		
 		mascotaDAO.borrar(id);
+		user = this.usuarioDAO.actualizar(user);
+		return true;
+		
+	}
+	
+	@Transactional
+	public boolean eliminarMascotaVeterinario(Long id, Long veterinario) {
+		
+		Usuario user = this.usuarioDAO.recuperar(veterinario);
+		Mascota mascotaABorrar = this.mascotaDAO.recuperar(id);
+		
+		if((user == null) || (mascotaABorrar == null)) {
+			return false;
+		}
+		
+//		chequeo que solo el veterinario que la atiende puede borrar la mascota
+		if(mascotaABorrar.getVeterinario().getId() != veterinario) {
+			return false;
+		}
+		
+		mascotaABorrar.setVeterinario(null);
+		mascotaABorrar = this.mascotaDAO.actualizar(mascotaABorrar);
+		
+		user.getMascotas_atendidas().remove(mascotaABorrar);
 		user = this.usuarioDAO.actualizar(user);
 		return true;
 		

@@ -63,11 +63,25 @@ public class MascotaController {
 		
 	}
 	
-	@DeleteMapping("/{mascota}/{duenio}")
-	public ResponseEntity<Map<String, Object>> borrarMascota( @PathVariable("mascota") Long id, @PathVariable("duenio") Long duenio){
+	@DeleteMapping("/{mascota}/duenio/{duenio}")
+	public ResponseEntity<Map<String, Object>> borrarMascotaDuenio( @PathVariable("mascota") Long id, @PathVariable("duenio") Long duenio){
 		HashMap<String, Object> res = new HashMap();
 		
-		boolean elimino = this.mascotaService.eliminarMascota(id, duenio);
+		boolean elimino = this.mascotaService.eliminarMascotaDuenio(id, duenio);
+		
+		if (!elimino) {
+			return new ResponseEntity<Map<String, Object>>(res, HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<Map<String, Object>>(res, HttpStatus.OK);
+		
+	}
+	
+	@DeleteMapping("/{mascota}/veterinario/{veterinario}")
+	public ResponseEntity<Map<String, Object>> borrarMascotaVeterinario( @PathVariable("mascota") Long id, @PathVariable("veterinario") Long veterinario){
+		HashMap<String, Object> res = new HashMap();
+		
+		boolean elimino = this.mascotaService.eliminarMascotaVeterinario(id, veterinario);
 		
 		if (!elimino) {
 			return new ResponseEntity<Map<String, Object>>(res, HttpStatus.BAD_REQUEST);

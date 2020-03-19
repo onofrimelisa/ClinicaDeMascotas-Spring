@@ -66,6 +66,7 @@ public class UsuarioService {
 		for (Usuario u : usuarios) {
 			usuariosDTO.add(this.procesarUsuarioShow(u));
 		}
+		System.out.println(usuariosDTO.size());
 		
 		return usuariosDTO;
 		
@@ -167,6 +168,7 @@ public class UsuarioService {
 			
 			if ( usuarioDAO.tieneRol(usuario, _rol)) {
 				usuario = usuarioDAO.eliminarRol(usuario, _rol);
+				usuario = usuarioDAO.actualizar(usuario);
 				usuarioDTO = this.procesarUsuario(usuario);
 			}			
 			

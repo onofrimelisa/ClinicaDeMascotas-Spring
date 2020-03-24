@@ -7,6 +7,9 @@ import java.util.List;
 
 import javax.persistence.Query;
 
+import org.springframework.stereotype.Repository;
+
+@Repository("tipoEventoDAO")
 public class TipoEventoDAOHibernateJPA extends GenericDAOHibernateJPA<TipoEvento> implements TipoEventoDAO {
 
 	public TipoEventoDAOHibernateJPA() {

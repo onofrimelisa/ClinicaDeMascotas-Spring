@@ -42,7 +42,7 @@ public class FichaPublicaController {
 		
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping("/ficha_publica/{id}")
 	public ResponseEntity<Map<String,Object>> recuperarPorID( @PathVariable("id") Long id) {
 		
 		FichaPublicaDTO ficha_publica = fichaPublicaService.recuperarPorID(id);

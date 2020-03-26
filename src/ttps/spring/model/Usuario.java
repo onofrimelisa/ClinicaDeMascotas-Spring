@@ -295,6 +295,10 @@ public class Usuario {
 		this.mascotas.add(mascota);
 	}
 	
+	public void agregarMascotaAtendida( Mascota mascota ) {
+		this.mascotas_atendidas.add(mascota);
+	}
+	
 	public void buscarMascota(Mascota m) {
 		
 	}

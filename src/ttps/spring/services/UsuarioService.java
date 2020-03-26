@@ -8,10 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ttps.spring.jpa.MascotaDAOHibernateJPA;
 import ttps.spring.jpa.RolDAOHibernateJPA;
 import ttps.spring.jpa.UsuarioDAOHibernateJPA;
+import ttps.spring.model.Mascota;
 import ttps.spring.model.Rol;
 import ttps.spring.model.Usuario;
+import ttps.spring.model.dto.MascotaDTO;
 import ttps.spring.model.dto.UsuarioDTO;
 import ttps.spring.model.dto.UsuarioNuevoDTO;
 import ttps.spring.model.dto.UsuarioShowDTO;
@@ -22,15 +25,17 @@ public class UsuarioService {
 	
 	private UsuarioDAOHibernateJPA usuarioDAO;
 	private RolDAOHibernateJPA rolDAO;
+	private MascotaDAOHibernateJPA mascotaDAO;
 	
 	@Autowired
 	private MascotaService mascotaService;
 	
 	@Autowired
-	public UsuarioService(UsuarioDAOHibernateJPA usuarioDAO, RolDAOHibernateJPA rolDAO) {
+	public UsuarioService(UsuarioDAOHibernateJPA usuarioDAO, RolDAOHibernateJPA rolDAO, MascotaDAOHibernateJPA mascotaDAO) {
 		super();
 		this.usuarioDAO = usuarioDAO;
 		this.rolDAO = rolDAO;
+		this.mascotaDAO = mascotaDAO;
 	}
 	
 	public UsuarioService() {
@@ -152,6 +157,31 @@ public class UsuarioService {
 	    System.out.println(usuarioActualizado.getActivo());
 		
 		return usuarioActualizadoDTO;
+	}
+	
+	@Transactional
+	public UsuarioUpdateDTO agregarMascota( UsuarioDTO u, MascotaDTO m) {
+		
+		Mascota mascota = this.mascotaDAO.recuperar(m.getId());
+		Usuario veterinario = this.usuarioDAO.recuperar(u.getId());
+		
+		mascota.setVeterinario(veterinario);
+		mascota = this.mascotaDAO.actualizar(mascota);
+		
+		veterinario.agregarMascotaAtendida(mascota);
+		veterinario = this.usuarioDAO.actualizar(veterinario);
+		
+		return new UsuarioUpdateDTO( veterinario.getId(), 
+										veterinario.getFoto(), 
+										veterinario.getApellido(), 
+										veterinario.getNombre(), 
+										veterinario.getEmail(), 
+										String.valueOf(veterinario.getFecha_nacimiento()), 
+										veterinario.getTelefono(), 
+										veterinario.getNombre_consultorio(), 
+										veterinario.getDomicilio_consultorio(), 
+										veterinario.getMatricula(), 
+										veterinario.getActivo());
 	}
 	
 	@Transactional

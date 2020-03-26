@@ -47,6 +47,27 @@ public class MascotaController {
 		
 	}
 	
+//	get mascotas sin veterinario
+	@GetMapping("/sinveterinario")
+	public ResponseEntity<Map<String, Object>> recuperarSinVeterinario(){
+//		
+		HashMap<String, Object> res = new HashMap();
+		
+		
+		List<MascotaDTO> mascotas = mascotaService.recuperarSinVeterinario();
+		
+		if (mascotas == null || mascotas.isEmpty()) {
+			res.put("mascotas", null);
+			return new ResponseEntity<Map<String, Object>>(res, HttpStatus.NO_CONTENT);
+		}
+		
+		res.put("total", mascotas.size());
+		res.put("mascotas", mascotas);
+		
+		return new ResponseEntity<Map<String, Object>>(res, HttpStatus.OK);
+		
+	}
+	
 	@PostMapping
 	public ResponseEntity<Map<String, Object>> agregarMascota(@RequestBody MascotaDTO mascota){
 		HashMap<String, Object> res = new HashMap();

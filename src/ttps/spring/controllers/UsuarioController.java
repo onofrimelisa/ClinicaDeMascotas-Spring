@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ttps.spring.model.dto.MascotaDTO;
 import ttps.spring.model.dto.UsuarioDTO;
 import ttps.spring.model.dto.UsuarioUpdateDTO;
+import ttps.spring.services.MascotaService;
 import ttps.spring.services.UsuarioService;
 
 @RestController
@@ -27,6 +29,8 @@ public class UsuarioController {
 
 	@Autowired
 	UsuarioService usuarioService;
+	@Autowired
+	MascotaService mascotaService;
 	
 	@GetMapping
 	public ResponseEntity<Map<String,Object>> recuperarTodos() {
@@ -73,6 +77,25 @@ public class UsuarioController {
 		res.put("usuario", usuario);
 		return new ResponseEntity<Map<String, Object>>(res, HttpStatus.OK);
 	
+	}
+	
+	@PutMapping("/agregar_atendidas/{id_mascota}")
+	public ResponseEntity<Map<String, Object>> agregarMascotaVeterinario( @PathVariable("id_mascota") Long id, @RequestBody UsuarioUpdateDTO uDTO){
+		
+		UsuarioDTO usuario = usuarioService.recuperar(uDTO.getId());
+		MascotaDTO mascota = mascotaService.recuperar(id);
+		
+		HashMap<String, Object> res = new HashMap<>();
+		
+		if(usuario == null || mascota == null) {
+			return new ResponseEntity<Map<String,Object>>(HttpStatus.NO_CONTENT);
+		}
+		
+		UsuarioUpdateDTO usuarioActualizado = this.usuarioService.agregarMascota(usuario, mascota);
+		
+		res.put("usuario", usuarioActualizado);
+		return new ResponseEntity<Map<String, Object>>(res, HttpStatus.OK);
+		
 	}
 	
 	@PutMapping("/{id}")

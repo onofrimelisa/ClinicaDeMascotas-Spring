@@ -16,6 +16,7 @@ import ttps.spring.model.Mascota;
 import ttps.spring.model.Rol;
 import ttps.spring.model.Usuario;
 import ttps.spring.model.dto.MascotaDTO;
+import ttps.spring.model.dto.UsuarioDTO;
 
 @Service("mascotaService")
 public class MascotaService {
@@ -37,6 +38,16 @@ public class MascotaService {
 	}
 	
 	// METODOS
+	
+	@Transactional
+	public MascotaDTO recuperar(Long id) {
+		Mascota m = this.mascotaDAO.recuperar(id);
+		if (m != null) {
+			return this.procesarMascota(m);			
+		}
+		return null;
+	}
+	
 	
 	@Transactional
 	public List<MascotaDTO> recuperarPorUsuario(Long u, String r){
@@ -70,6 +81,23 @@ public class MascotaService {
 		return mascotasDTO;
 	}
 	
+
+	@Transactional
+	public List<MascotaDTO> recuperarSinVeterinario(){
+				
+		List<MascotaDTO> mascotasDTO = new ArrayList<MascotaDTO>();
+		List<Mascota> mascotas;
+		
+		mascotas = this.mascotaDAO.getSinVeterinario();
+		
+		
+		for (Mascota m : mascotas) {
+			mascotasDTO.add(this.procesarMascota(m));
+		}
+		
+		return mascotasDTO;
+	}
+	
 	
 	@Transactional
 	public MascotaDTO agregarMascota(MascotaDTO mascota) {
@@ -82,7 +110,7 @@ public class MascotaService {
 		}
 		Usuario veterinario = null;
 		
-		if (mascota.getVeterinario() != "") {
+		if (mascota.getVeterinario() != null && mascota.getVeterinario() != "") {
 			veterinario = this.usuarioDAO.recuperar(Long.valueOf(mascota.getVeterinario()));
 			if (veterinario == null ) {
 				return null;

@@ -160,6 +160,21 @@ public class UsuarioService {
 	}
 	
 	@Transactional
+	public UsuarioDTO agregarRol(UsuarioUpdateDTO uDTO,String rol){
+		
+		Rol r = rolDAO.recuperarPorNombre(rol);
+		Usuario usuario = this.usuarioDAO.recuperar(uDTO.getId());
+		
+		usuario.getRoles().add(r);
+		usuario = this.usuarioDAO.actualizar(usuario);
+		
+		UsuarioDTO u = this.procesarUsuarioShow(usuario);
+		
+		return u;
+		
+	}
+	
+	@Transactional
 	public UsuarioUpdateDTO agregarMascota( UsuarioDTO u, MascotaDTO m) {
 		
 		Mascota mascota = this.mascotaDAO.recuperar(m.getId());

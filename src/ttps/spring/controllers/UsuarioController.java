@@ -147,6 +147,23 @@ public class UsuarioController {
 		return new ResponseEntity<Map<String,Object>>(res, HttpStatus.OK);
 	}
 	
+	@PutMapping("/{id_usuario}/{rol}")
+	public ResponseEntity<Map<String, Object>> agregarRol( @PathVariable("id_usuario") Long id,@PathVariable("rol") String rol, @RequestBody UsuarioUpdateDTO uDTO){
+		HashMap<String, Object> res = new HashMap<>();
+		UsuarioDTO usuario = usuarioService.recuperar(id);
+		
+		if(usuario == null) {
+			return new ResponseEntity<Map<String,Object>>(HttpStatus.NO_CONTENT);
+		}
+		
+		UsuarioDTO usuarioActualizado = this.usuarioService.agregarRol(uDTO, rol);
+		
+		
+		res.put("usuario", usuarioActualizado);			
+		return new ResponseEntity<Map<String,Object>>(res, HttpStatus.OK);
+		
+	}
+	
 	
 	// ==================
 	// VALIDACIONES

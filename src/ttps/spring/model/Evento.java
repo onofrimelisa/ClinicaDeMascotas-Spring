@@ -29,6 +29,9 @@ public class Evento {
 	@ManyToOne(optional=false)
 	private Mascota mascota;
 	
+	@OneToOne(optional=true)
+	private Recordatorio recordatorio;
+	
 	//Constructor
 	public Evento() {
 		super();
@@ -121,6 +124,15 @@ public class Evento {
 		this.mascota = mascota;
 	}
 	
+	
+	public Recordatorio getRecordatorio() {
+		return recordatorio;
+	}
+
+	public void setRecordatorio(Recordatorio recordatorio) {
+		this.recordatorio = recordatorio;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		// TODO Auto-generated method stub

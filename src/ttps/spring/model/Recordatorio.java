@@ -14,7 +14,7 @@ public class Recordatorio {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@OneToOne(optional=true)
+	@OneToOne
 	private Evento evento;
 	
 	@ManyToOne()
@@ -30,11 +30,12 @@ public class Recordatorio {
 
 	
 	
-	public Recordatorio(Usuario creador, Date fecha, String descripcion) {
+	public Recordatorio(Usuario creador, Date fecha, String descripcion, Evento evento) {
 		super();
 		this.creador = creador;
 		this.fecha = fecha;
 		this.descripcion = descripcion;
+		this.evento = evento;
 	}
 
 

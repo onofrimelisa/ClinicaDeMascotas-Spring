@@ -1,6 +1,8 @@
 package ttps.spring.services;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +37,24 @@ public class EventoService {
 	}
 
 	public EventoService() { }
+	
+	
+	public List<EventoDTO> recuperarPorCreador( Long id_creador ) {
+		
+		Usuario creador = usuarioDAO.recuperar(id_creador);
+		
+		if( creador == null) {
+			return null;
+		}
+		
+		List<Evento> eventos = eventoDAO.recuperarPorCreador(creador, "fecha DESC");
+		
+		List<EventoDTO> eventosDTO = new ArrayList<EventoDTO>();
+		for( Evento e: eventos) {
+			eventosDTO.add(this.procesarEvento(e));
+		}
+		return eventosDTO;
+	}
 	
 	
 	
@@ -75,6 +95,27 @@ public class EventoService {
 		evento.setNombre_mascota(mascota.getNombre());
 		return evento;
 	}
+	
+	//============================
+	//    OPERACIONES PRIVADAS
+	//============================
+	private EventoDTO procesarEvento( Evento e ) {
+		return new EventoDTO(e.getId(),
+							 e.getTipo().getNombre(),
+							 e.getFecha().toString(),
+							 e.getPeso(),
+							 e.getDescripcion(),
+							 e.getObservaciones(),
+							 e.getDiagnostico(),
+							 e.getDroga(),
+							 e.getIndicaciones(),
+							 e.getUsuario_creador().getId(),
+							 e.getMascota().getNombre(),
+							 e.getMascota().getId());
+	}
+	
+	
+	
 	
 	
 }

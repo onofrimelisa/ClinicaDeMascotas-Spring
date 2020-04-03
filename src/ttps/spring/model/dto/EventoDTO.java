@@ -22,6 +22,25 @@ public class EventoDTO {
 		// TODO Auto-generated constructor stub
 	}
 
+	
+	public EventoDTO(Long id, String tipo, String fecha, Double peso, String descripcion, String observaciones,
+			String diagnostico, String droga, String indicaciones, Long usuario_creador, String nombre_mascota,
+			Long id_mascota) {
+		super();
+		this.id = id;
+		this.tipo = tipo;
+		this.fecha = fecha;
+		this.peso = peso;
+		this.descripcion = descripcion;
+		this.observaciones = observaciones;
+		this.diagnostico = diagnostico;
+		this.droga = droga;
+		this.indicaciones = indicaciones;
+		this.usuario_creador = usuario_creador;
+		this.nombre_mascota = nombre_mascota;
+		this.id_mascota = id_mascota;
+	}
+
 	public EventoDTO(Long id) {
 		super();
 		this.id = id;

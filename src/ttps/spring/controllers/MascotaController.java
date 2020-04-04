@@ -27,9 +27,28 @@ public class MascotaController {
 	@Autowired
 	MascotaService mascotaService;
 	
+	@GetMapping("/{id}")
+	public ResponseEntity<Map<String, Object>> recuperarMascota( @PathVariable("id") Long id){
+		
+		HashMap<String, Object> res = new HashMap();
+		
+		
+		MascotaDTO mascota = mascotaService.recuperar(id);
+		
+		if (mascota == null) {
+			res.put("mascota", null);
+			return new ResponseEntity<Map<String, Object>>(res, HttpStatus.NO_CONTENT);
+		}
+		
+		res.put("mascota", mascota);
+		
+		return new ResponseEntity<Map<String, Object>>(res, HttpStatus.OK);
+		
+	}
+	
 	@GetMapping("/{rol}/{usuario}")
 	public ResponseEntity<Map<String, Object>> recuperarPorDuenio( @PathVariable("usuario") Long usuario, @PathVariable("rol") String rol){
-//		
+		
 		HashMap<String, Object> res = new HashMap();
 		
 		
@@ -47,7 +66,7 @@ public class MascotaController {
 		
 	}
 	
-//	get mascotas sin veterinario
+
 	@GetMapping("/sinveterinario")
 	public ResponseEntity<Map<String, Object>> recuperarSinVeterinario(){
 //		

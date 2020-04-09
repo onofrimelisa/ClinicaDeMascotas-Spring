@@ -111,7 +111,9 @@ public class EventoService {
 							 e.getIndicaciones(),
 							 e.getUsuario_creador().getId(),
 							 e.getMascota().getNombre(),
-							 e.getMascota().getId());
+							 e.getMascota().getId(),
+							 e.getRecordar());
+	
 	}
 	
 	

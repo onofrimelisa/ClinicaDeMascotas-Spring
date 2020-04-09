@@ -27,8 +27,4 @@ public class FactoryDAO {
 		return new EventoDAOHibernateJPA();
 	}
 	
-	public static RecordatorioDAO getRecordatorioDAO() {
-		return new RecordatorioDAOHibernateJPA();
-	}
-	
 }

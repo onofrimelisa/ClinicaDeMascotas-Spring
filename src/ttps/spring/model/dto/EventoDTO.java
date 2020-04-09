@@ -1,7 +1,5 @@
 package ttps.spring.model.dto;
 
-import java.sql.Date;
-
 public class EventoDTO {
 	
 	private Long id;
@@ -17,7 +15,8 @@ public class EventoDTO {
 	private Long usuario_creador;
 	private String nombre_mascota;
 	private Long id_mascota;
-
+	private boolean recordar;
+	
 	public EventoDTO() {
 		// TODO Auto-generated constructor stub
 	}
@@ -25,7 +24,7 @@ public class EventoDTO {
 	
 	public EventoDTO(Long id, String tipo, String fecha, Double peso, String descripcion, String observaciones,
 			String diagnostico, String droga, String indicaciones, Long usuario_creador, String nombre_mascota,
-			Long id_mascota) {
+			Long id_mascota, boolean recordar) {
 		super();
 		this.id = id;
 		this.tipo = tipo;
@@ -39,6 +38,7 @@ public class EventoDTO {
 		this.usuario_creador = usuario_creador;
 		this.nombre_mascota = nombre_mascota;
 		this.id_mascota = id_mascota;
+		this.recordar = recordar;
 	}
 
 	public EventoDTO(Long id) {
@@ -142,7 +142,15 @@ public class EventoDTO {
 		this.id_mascota = id_mascota;
 	}
 
-	
+
+	public boolean isRecordar() {
+		return recordar;
+	}
+
+
+	public void setRecordar(boolean recordar) {
+		this.recordar = recordar;
+	}
 	
 	
 }

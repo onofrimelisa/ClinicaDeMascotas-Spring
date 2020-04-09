@@ -1,5 +1,4 @@
 package ttps.spring.model;
-import java.sql.Blob;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.sql.rowset.serial.SerialBlob;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -21,7 +19,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@JsonIgnoreProperties( { "mascotas", "mascotas_atendidas", "recordatorios", "eventos" } )
+@JsonIgnoreProperties( { "mascotas", "mascotas_atendidas", "eventos" } )
 @Entity
 public class Usuario {
 
@@ -70,13 +68,6 @@ public class Usuario {
 	List<Rol> roles;
 	
 	
-	
-	@OneToMany(mappedBy="creador")
-	@LazyCollection(LazyCollectionOption.TRUE)
-	List<Recordatorio> recordatorios;	
-	
-	
-	
 	@OneToMany(mappedBy="usuario_creador")
 	@LazyCollection(LazyCollectionOption.TRUE)
 	List<Evento> eventos;
@@ -88,7 +79,6 @@ public class Usuario {
 		//inicializo colecciones
 		this.mascotas = new ArrayList<Mascota>();
 		this.mascotas_atendidas = new ArrayList<Mascota>();
-		this.recordatorios = new ArrayList<Recordatorio>();
 		this.roles = new ArrayList<Rol>();
 		this.eventos = new ArrayList<Evento>();
 	}
@@ -110,7 +100,6 @@ public class Usuario {
 		//inicializo colecciones
 		this.mascotas = new ArrayList<Mascota>();
 		this.mascotas_atendidas = new ArrayList<Mascota>();
-		this.recordatorios = new ArrayList<Recordatorio>();
 		this.roles = new ArrayList<Rol>();
 		this.eventos = new ArrayList<Evento>();
 	}
@@ -147,9 +136,6 @@ public class Usuario {
 		this.fecha_nacimiento = fecha_nacimiento;
 	}
 	
-	public List<Recordatorio> getRecordatorios() {
-		return recordatorios;
-	}
 
 	public List<Rol> getRoles() {
 		return roles;
@@ -269,14 +255,6 @@ public class Usuario {
 
 	//Metodos
 	
-	
-	public void agregarRecordatorio(Recordatorio rec) {
-		this.recordatorios.add(rec);	
-	}
-	
-	public void eliminarRecordatorio(Recordatorio rec) {
-		this.recordatorios.remove(rec);	
-	}	
 	
 	public void agregarEvento(Evento evento) {
 		this.eventos.add(evento);

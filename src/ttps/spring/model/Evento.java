@@ -4,7 +4,6 @@ import java.sql.Date;
 
 import javax.persistence.*;
 
-import java.util.ArrayList;
 
 @Entity
 public class Evento {
@@ -22,16 +21,15 @@ public class Evento {
 	private String diagnostico;
 	private String droga;
 	private String indicaciones;
-	
+	private boolean recordar;
+
 	@ManyToOne(optional=false)
 	private Usuario usuario_creador;
 	
 	@ManyToOne(optional=false)
 	private Mascota mascota;
-	
-	@OneToOne(optional=true)
-	private Recordatorio recordatorio;
-	
+		
+		
 	//Constructor
 	public Evento() {
 		super();
@@ -51,6 +49,7 @@ public class Evento {
 		this.indicaciones = indicaciones;
 		this.usuario_creador = usuario_creador;
 		this.mascota = mascota;
+		this.recordar = false;
 	}
 
 
@@ -125,12 +124,12 @@ public class Evento {
 	}
 	
 	
-	public Recordatorio getRecordatorio() {
-		return recordatorio;
+	public boolean getRecordar() {
+		return recordar;
 	}
 
-	public void setRecordatorio(Recordatorio recordatorio) {
-		this.recordatorio = recordatorio;
+	public void setRecordar(boolean recordar) {
+		this.recordar = recordar;
 	}
 
 	@Override

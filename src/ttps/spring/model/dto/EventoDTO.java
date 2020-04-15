@@ -143,7 +143,7 @@ public class EventoDTO {
 	}
 
 
-	public boolean isRecordar() {
+	public boolean getRecordar() {
 		return recordar;
 	}
 

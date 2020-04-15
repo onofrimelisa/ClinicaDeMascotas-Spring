@@ -74,7 +74,7 @@ public class GenericDAOHibernateJPA<T> implements GenericDAO<T> {
 		
 		T entity = this.getEntityManager().find(this.getPersistentClass(), id);
 		
-		if (entity != null) {
+		if (entity == null) {
 			return false;
 		}	
 		return true;	

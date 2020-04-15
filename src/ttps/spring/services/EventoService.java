@@ -96,6 +96,38 @@ public class EventoService {
 		return evento;
 	}
 	
+	
+	@Transactional
+	public EventoDTO actualizar( EventoDTO eventoDTO ) {
+
+		Mascota mascota = mascotaDAO.recuperar(eventoDTO.getId_mascota());
+		Usuario usuario = usuarioDAO.recuperar(eventoDTO.getUsuario_creador());
+		TipoEvento tipo = tipoEventoDAO.recuperarPorNombre(eventoDTO.getTipo());
+		Evento evento   = eventoDAO.recuperar(eventoDTO.getId());
+		
+		if( evento == null || mascota == null || usuario == null || tipo == null) {
+			return null;
+		}
+		
+		evento.setTipo(tipo);
+		evento.setDescripcion(eventoDTO.getDescripcion());
+		evento.setFecha(Date.valueOf(eventoDTO.getFecha()));
+		evento.setIndicaciones(eventoDTO.getIndicaciones());
+		evento.setDiagnostico(eventoDTO.getDiagnostico());
+		evento.setObservaciones(eventoDTO.getObservaciones());
+		evento.setDroga(eventoDTO.getDroga());
+		evento.setPeso(eventoDTO.getPeso());
+		evento.setRecordar(!eventoDTO.getRecordar()); //bug
+		
+		evento = eventoDAO.actualizar(evento);
+		return eventoDTO;
+	}
+	
+	@Transactional
+	public boolean existe( Long id ) {
+		return eventoDAO.existe(id);
+	}
+	
 	//============================
 	//    OPERACIONES PRIVADAS
 	//============================

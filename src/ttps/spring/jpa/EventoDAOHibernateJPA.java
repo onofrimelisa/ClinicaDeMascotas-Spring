@@ -28,4 +28,5 @@ public class EventoDAOHibernateJPA extends GenericDAOHibernateJPA<Evento> implem
 		List<Evento> resultado = (List<Evento>)consulta.getResultList();
 		return resultado;
 	}
+
 }

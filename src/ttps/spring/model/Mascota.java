@@ -185,6 +185,10 @@ public class Mascota {
 		this.foto = foto;
 	}
 	
+	@Override
+	public boolean equals( Object obj ) {
+		return ((Mascota) obj).getId().equals(this.getId());
+	}
 	
 	
 }

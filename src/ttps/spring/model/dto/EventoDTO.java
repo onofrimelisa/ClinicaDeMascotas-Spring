@@ -15,7 +15,8 @@ public class EventoDTO {
 	private Long usuario_creador;
 	private String nombre_mascota;
 	private Long id_mascota;
-	private boolean recordar;
+	private boolean recordar_veterinario;
+	private boolean recordar_duenio;
 	
 	public EventoDTO() {
 		// TODO Auto-generated constructor stub
@@ -24,7 +25,7 @@ public class EventoDTO {
 	
 	public EventoDTO(Long id, String tipo, String fecha, Double peso, String descripcion, String observaciones,
 			String diagnostico, String droga, String indicaciones, Long usuario_creador, String nombre_mascota,
-			Long id_mascota, boolean recordar) {
+			Long id_mascota, boolean recordar_duenio, boolean recordar_veterinario) {
 		super();
 		this.id = id;
 		this.tipo = tipo;
@@ -38,7 +39,8 @@ public class EventoDTO {
 		this.usuario_creador = usuario_creador;
 		this.nombre_mascota = nombre_mascota;
 		this.id_mascota = id_mascota;
-		this.recordar = recordar;
+		this.recordar_duenio = recordar_duenio;
+		this.recordar_veterinario = recordar_veterinario;
 	}
 
 	public EventoDTO(Long id) {
@@ -143,14 +145,27 @@ public class EventoDTO {
 	}
 
 
-	public boolean getRecordar() {
-		return recordar;
+	public boolean isRecordar_veterinario() {
+		return recordar_veterinario;
 	}
 
 
-	public void setRecordar(boolean recordar) {
-		this.recordar = recordar;
+	public void setRecordar_veterinario(boolean recordar_veterinario) {
+		this.recordar_veterinario = recordar_veterinario;
 	}
+
+
+	public boolean isRecordar_duenio() {
+		return recordar_duenio;
+	}
+
+
+	public void setRecordar_duenio(boolean recordar_duenio) {
+		this.recordar_duenio = recordar_duenio;
+	}
+
+
+	
 	
 	
 }

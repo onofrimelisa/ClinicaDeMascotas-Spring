@@ -23,12 +23,9 @@ public class MascotaDAOHibernateJPA extends GenericDAOHibernateJPA<Mascota> impl
 				.createQuery("SELECT m FROM Mascota AS m"
 							+" WHERE m.veterinario = null ");
 
-	List<Mascota> resultado = (List<Mascota>)consulta.getResultList();
-	
-	return resultado;
+		List<Mascota> resultado = (List<Mascota>)consulta.getResultList();
 		
-		
+		return resultado;
 	}
-
 
 }

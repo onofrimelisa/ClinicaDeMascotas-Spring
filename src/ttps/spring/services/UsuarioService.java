@@ -2,7 +2,9 @@ package ttps.spring.services;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,8 +75,29 @@ public class UsuarioService {
 		}
 		System.out.println(usuariosDTO.size());
 		
-		return usuariosDTO;
+		return usuariosDTO;	
+	}
+	
+	@Transactional
+	public List<MascotaDTO> recuperarMascotasAsociadas( Long id_usuario ) {
+		Usuario usuario = this.usuarioDAO.recuperar(id_usuario);
 		
+		if( usuario == null) {
+			return null;
+		}
+		
+		List<Mascota> mascotas = usuario.getMascotas();
+		mascotas.addAll(usuario.getMascotas_atendidas());
+		
+		Set<Mascota> mascotasSet = new HashSet<Mascota>(mascotas);
+		
+		List<MascotaDTO> mascotasDTO = new ArrayList<MascotaDTO>();
+		
+		for(Mascota m: mascotasSet) {
+			mascotasDTO.add(this.mascotaService.procesarMascota(m));
+		}
+		
+		return mascotasDTO;
 	}
 	
 	@Transactional 

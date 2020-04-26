@@ -8,4 +8,5 @@ import ttps.spring.model.Usuario;
 public interface EventoDAO extends GenericDAO<Evento> {
 
 	public List<Evento> recuperarPorCreador( Usuario creador, String columnOrder );
+	
 }

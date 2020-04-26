@@ -2,7 +2,10 @@ package ttps.spring.services;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,7 +41,7 @@ public class EventoService {
 
 	public EventoService() { }
 	
-	
+	@Transactional
 	public List<EventoDTO> recuperarPorCreador( Long id_creador ) {
 		
 		Usuario creador = usuarioDAO.recuperar(id_creador);
@@ -49,10 +52,69 @@ public class EventoService {
 		
 		List<Evento> eventos = eventoDAO.recuperarPorCreador(creador, "fecha DESC");
 		
-		List<EventoDTO> eventosDTO = new ArrayList<EventoDTO>();
+		List<Evento> eventosPasados = new ArrayList<Evento>();
+		List<Evento> eventosNuevos  = new ArrayList<Evento>(); 
+		
+		java.util.Date hoy =  new java.util.Date();
+		
 		for( Evento e: eventos) {
+			if( e.getFecha().after(hoy)) {
+				eventosNuevos.add(e);
+			} else {
+				eventosPasados.add(e);
+			}	
+		}
+		
+		Collections.sort(eventosNuevos);
+		
+		List<EventoDTO> eventosDTO = new ArrayList<EventoDTO>();
+		
+		for( Evento e: eventosNuevos) {
 			eventosDTO.add(this.procesarEvento(e));
 		}
+		for( Evento e: eventosPasados) {
+			eventosDTO.add(this.procesarEvento(e));
+		}
+
+		
+		return eventosDTO;
+	}
+	
+	@Transactional
+	public List<EventoDTO> recuperarPorVeterinario( Long id_veterinario ) {
+		Usuario veterinario = usuarioDAO.recuperar(id_veterinario);
+		
+		if( veterinario == null) {
+			return null;
+		}
+		
+		List<EventoDTO> eventosDTO = new ArrayList<EventoDTO>();
+		
+		for( Mascota m: veterinario.getMascotas_atendidas()) {
+			for( Evento e: m.getEventos()) {
+				eventosDTO.add(this.procesarEvento(e));
+			}
+		}
+		
+		return eventosDTO;
+	}
+	
+	@Transactional
+	public List<EventoDTO> recuperarPorDuenio( Long id_duenio ) {
+		Usuario duenio= usuarioDAO.recuperar(id_duenio);
+		
+		if( duenio == null) {
+			return null;
+		}
+		
+		List<EventoDTO> eventosDTO = new ArrayList<EventoDTO>();
+		
+		for( Mascota m: duenio.getMascotas()) {
+			for( Evento e: m.getEventos()) {
+				eventosDTO.add(this.procesarEvento(e));
+			}
+		}
+		
 		return eventosDTO;
 	}
 	
@@ -117,10 +179,50 @@ public class EventoService {
 		evento.setObservaciones(eventoDTO.getObservaciones());
 		evento.setDroga(eventoDTO.getDroga());
 		evento.setPeso(eventoDTO.getPeso());
-		evento.setRecordar(!eventoDTO.getRecordar()); //bug
 		
 		evento = eventoDAO.actualizar(evento);
 		return eventoDTO;
+	}
+	
+	@Transactional
+	public EventoDTO actualizarRecordar( EventoDTO eventoDTO, Long id_usuario ) {
+
+		Mascota mascota = mascotaDAO.recuperar(eventoDTO.getId_mascota());
+		Usuario creador = usuarioDAO.recuperar(eventoDTO.getUsuario_creador());
+		TipoEvento tipo = tipoEventoDAO.recuperarPorNombre(eventoDTO.getTipo());
+		Evento evento   = eventoDAO.recuperar(eventoDTO.getId());
+		
+		if( evento == null || mascota == null || creador == null || tipo == null) {
+			return null;
+		}
+		
+		if( mascota.getDuenio().getId() == id_usuario )
+			evento.setRecordar_duenio(!eventoDTO.isRecordar_duenio()); //bug
+		else
+			evento.setRecordar_veterinario(!eventoDTO.isRecordar_veterinario());
+		
+		
+		evento = eventoDAO.actualizar(evento);
+		return eventoDTO;
+	}
+	
+	@Transactional
+	public EventoDTO recuperar( Long id ) {
+		Evento e = this.eventoDAO.recuperar(id);
+		if( e == null) {
+			return null;
+		}
+		return this.procesarEvento(e);
+	}
+	
+	
+	@Transactional
+	public EventoDTO eliminar( Long id ) {
+		Evento e = this.eventoDAO.borrar(id);
+		if( e == null) {
+			return null;
+		}
+		return this.procesarEvento(e);
 	}
 	
 	@Transactional
@@ -144,7 +246,8 @@ public class EventoService {
 							 e.getUsuario_creador().getId(),
 							 e.getMascota().getNombre(),
 							 e.getMascota().getId(),
-							 e.getRecordar());
+							 e.isRecordar_duenio(),
+							 e.isRecordar_veterinario());
 	
 	}
 	

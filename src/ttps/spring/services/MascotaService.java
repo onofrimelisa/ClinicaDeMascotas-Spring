@@ -185,12 +185,8 @@ public class MascotaService {
 		
 	}
 	
-	
-	//============================
-	//    OPERACIONES PRIVADAS
-	//============================
-	
-	private MascotaDTO procesarMascota(Mascota m) {
+
+	public MascotaDTO procesarMascota(Mascota m) {
 		MascotaDTO mDTO;
 		
 		mDTO = new MascotaDTO(m.getNombre(), 

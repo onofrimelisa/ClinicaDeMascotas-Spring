@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 
 @Entity
-public class Evento {
+public class Evento implements Comparable<Evento> {
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -21,7 +21,8 @@ public class Evento {
 	private String diagnostico;
 	private String droga;
 	private String indicaciones;
-	private boolean recordar;
+	private boolean recordar_duenio;
+	private boolean recordar_veterinario;
 
 	@ManyToOne(optional=false)
 	private Usuario usuario_creador;
@@ -49,7 +50,8 @@ public class Evento {
 		this.indicaciones = indicaciones;
 		this.usuario_creador = usuario_creador;
 		this.mascota = mascota;
-		this.recordar = false;
+		this.recordar_duenio = false;
+		this.recordar_veterinario = false;
 	}
 
 
@@ -123,19 +125,34 @@ public class Evento {
 		this.mascota = mascota;
 	}
 	
-	
-	public boolean getRecordar() {
-		return recordar;
+
+	public boolean isRecordar_duenio() {
+		return recordar_duenio;
 	}
 
-	public void setRecordar(boolean recordar) {
-		this.recordar = recordar;
+	public void setRecordar_duenio(boolean recordar_duenio) {
+		this.recordar_duenio = recordar_duenio;
+	}
+
+	public boolean isRecordar_veterinario() {
+		return recordar_veterinario;
+	}
+
+	public void setRecordar_veterinario(boolean recordar_veterinario) {
+		this.recordar_veterinario = recordar_veterinario;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		// TODO Auto-generated method stub
 		return ((Evento) obj).getTipo().equals(this.getTipo());
+	}
+
+	@Override
+	public int compareTo(Evento o) {
+		if( this.getFecha().before(o.getFecha()) ) return -1;
+		else if( this.getFecha().after(o.getFecha()) ) return 1;
+		else return 0;
 	}
 	
 	

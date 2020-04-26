@@ -164,6 +164,21 @@ public class UsuarioController {
 		
 	}
 	
+	@GetMapping("/mascotas_asociadas/{id}")
+	public ResponseEntity<Map<String, Object>> recuperarMascotasAsociadas( @PathVariable("id") Long id){
+		
+		UsuarioDTO usuario = usuarioService.recuperar(id);
+		HashMap<String, Object> res = new HashMap<>();
+		
+		List<MascotaDTO> mascotas = this.usuarioService.recuperarMascotasAsociadas(id);
+		
+		if(mascotas == null) {
+			return new ResponseEntity<Map<String,Object>>(HttpStatus.NO_CONTENT);
+		}
+		
+		res.put("mascotas", mascotas);
+		return new ResponseEntity<Map<String, Object>>(res, HttpStatus.OK);
+	}
 	
 	// ==================
 	// VALIDACIONES

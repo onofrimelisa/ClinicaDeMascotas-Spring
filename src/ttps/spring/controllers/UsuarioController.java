@@ -114,7 +114,7 @@ public class UsuarioController {
 		}
 		
 
-		UsuarioUpdateDTO usuarioActualizado = this.usuarioService.actualizar(uDTO);
+		UsuarioDTO usuarioActualizado = this.usuarioService.actualizar(uDTO);
 		
 		if(usuarioActualizado == null) {
 			res.put("error", "El email seleccionado ya existe");

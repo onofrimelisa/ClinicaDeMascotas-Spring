@@ -152,7 +152,7 @@ public class UsuarioService {
 	}
 	
 	@Transactional
-	public UsuarioUpdateDTO actualizar( UsuarioUpdateDTO uDTO) {
+	public UsuarioDTO actualizar( UsuarioUpdateDTO uDTO) {
 		
 		Usuario usuario = this.usuarioDAO.recuperar(uDTO.getId());
 		
@@ -162,24 +162,11 @@ public class UsuarioService {
 				return null;		
 			}
 		}
-				
-		UsuarioUpdateDTO usuarioActualizadoDTO = new UsuarioUpdateDTO(  uDTO.getId(), 
-																		uDTO.getFoto(), 
-																		uDTO.getApellido(), 
-																		uDTO.getNombre(), 
-																		uDTO.getEmail(), 
-																		uDTO.getFecha_nacimiento(), 
-																		uDTO.getTelefono(), 
-																		uDTO.getNombre_consultorio(), 
-																		uDTO.getDomicilio_consultorio(), 
-																		uDTO.getMatricula(), 
-																		uDTO.getActivo());
 		
-		Usuario usuarioActualizado = this.actualizar( usuario, usuarioActualizadoDTO);		
+		Usuario usuarioActualizado = this.actualizar( usuario, uDTO);		
 	    usuarioActualizado = this.usuarioDAO.actualizar(usuarioActualizado);
-	    System.out.println(usuarioActualizado.getActivo());
-		
-		return usuarioActualizadoDTO;
+	    
+		return this.procesarUsuario(usuarioActualizado);
 	}
 	
 	@Transactional

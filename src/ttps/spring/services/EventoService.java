@@ -233,7 +233,7 @@ public class EventoService {
 	//============================
 	//    OPERACIONES PRIVADAS
 	//============================
-	private EventoDTO procesarEvento( Evento e ) {
+	public EventoDTO procesarEvento( Evento e ) {
 		return new EventoDTO(e.getId(),
 							 e.getTipo().getNombre(),
 							 e.getFecha().toString(),

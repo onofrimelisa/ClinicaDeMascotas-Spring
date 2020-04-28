@@ -1,10 +1,9 @@
 package ttps.spring.model.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
-
-
-public class MascotaDTO implements Serializable{
+public class MascotaShowDTO  implements Serializable{
 	
 	private Long id;
 	private String nombre;
@@ -16,18 +15,20 @@ public class MascotaDTO implements Serializable{
 	private String senias;
 	private String foto;
 	
-	private Long duenio;
-	private Long veterinario;
+	private UsuarioDTO duenio;
+	private UsuarioDTO veterinario;
+	
+	private List<EventoDTO> eventos;
+	
+	public MascotaShowDTO() {
+		// TODO Auto-generated constructor stub
+	}
 
-	
-//	CONSTRUCTOR con campos obligatorios
-	public MascotaDTO() {
+	public MascotaShowDTO(Long id, String nombre, String fecha_nacimiento, String especie, String raza, String sexo,
+			String color, String senias, String foto, UsuarioDTO duenio, UsuarioDTO veterinario,
+			List<EventoDTO> eventos) {
 		super();
-	}
-	
-	public MascotaDTO(String nombre, String fecha_nacimiento, String especie, String raza, String sexo,
-			String color, String senias) {
-		super();
+		this.id = id;
 		this.nombre = nombre;
 		this.fecha_nacimiento = fecha_nacimiento;
 		this.especie = especie;
@@ -35,83 +36,74 @@ public class MascotaDTO implements Serializable{
 		this.sexo = sexo;
 		this.color = color;
 		this.senias = senias;
-	}
-	
-	public MascotaDTO(String nombre, String fecha_nacimiento, String especie, String raza, String sexo,
-			String color, String senias, Long duenio, String foto) {
-		super();
-		this.nombre = nombre;
-		this.fecha_nacimiento = fecha_nacimiento;
-		this.especie = especie;
-		this.raza = raza;
-		this.sexo = sexo;
-		this.color = color;
-		this.senias = senias;
-		this.duenio = duenio;
 		this.foto = foto;
+		this.duenio = duenio;
+		this.veterinario = veterinario;
+		this.eventos = eventos;
 	}
-	
-//	GETTERS Y SETTERS
+
 	public Long getId() {
 		return id;
 	}
-	
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public String getNombre() {
 		return nombre;
 	}
+
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+
 	public String getFecha_nacimiento() {
 		return fecha_nacimiento;
 	}
+
 	public void setFecha_nacimiento(String fecha_nacimiento) {
 		this.fecha_nacimiento = fecha_nacimiento;
 	}
+
 	public String getEspecie() {
 		return especie;
 	}
+
 	public void setEspecie(String especie) {
 		this.especie = especie;
 	}
+
 	public String getRaza() {
 		return raza;
 	}
+
 	public void setRaza(String raza) {
 		this.raza = raza;
 	}
+
 	public String getSexo() {
 		return sexo;
 	}
+
 	public void setSexo(String sexo) {
 		this.sexo = sexo;
 	}
+
 	public String getColor() {
 		return color;
 	}
+
 	public void setColor(String color) {
 		this.color = color;
 	}
+
 	public String getSenias() {
 		return senias;
 	}
+
 	public void setSenias(String senias) {
 		this.senias = senias;
-	}
-	public Long getDuenio() {
-		return duenio;
-	}
-	public void setDuenio(Long duenio) {
-		this.duenio = duenio;
-	}
-	public Long getVeterinario() {
-		return veterinario;
-	}
-	public void setVeterinario(Long veterinario) {
-		this.veterinario = veterinario;
 	}
 
 	public String getFoto() {
@@ -122,6 +114,29 @@ public class MascotaDTO implements Serializable{
 		this.foto = foto;
 	}
 
+	public UsuarioDTO getDuenio() {
+		return duenio;
+	}
+
+	public void setDuenio(UsuarioDTO duenio) {
+		this.duenio = duenio;
+	}
+
+	public UsuarioDTO getVeterinario() {
+		return veterinario;
+	}
+
+	public void setVeterinario(UsuarioDTO veterinario) {
+		this.veterinario = veterinario;
+	}
+
+	public List<EventoDTO> getEventos() {
+		return eventos;
+	}
+
+	public void setEventos(List<EventoDTO> eventos) {
+		this.eventos = eventos;
+	}
 	
 	
 	

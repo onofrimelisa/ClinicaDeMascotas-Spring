@@ -263,7 +263,7 @@ public class UsuarioService {
 	}
 	
 	
-	private UsuarioDTO procesarUsuario( Usuario u ) {
+	public UsuarioDTO procesarUsuario( Usuario u ) {
 		
 		UsuarioDTO uDTO;
 		

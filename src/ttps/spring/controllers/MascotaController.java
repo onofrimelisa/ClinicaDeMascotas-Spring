@@ -12,12 +12,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ttps.spring.model.dto.MascotaDTO;
+import ttps.spring.model.dto.MascotaShowDTO;
 import ttps.spring.services.MascotaService;
 
 @RestController
@@ -45,6 +46,26 @@ public class MascotaController {
 		return new ResponseEntity<Map<String, Object>>(res, HttpStatus.OK);
 		
 	}
+	
+	@GetMapping("/show/{id}")
+	public ResponseEntity<Map<String, Object>> recuperarMascotaShow( @PathVariable("id") Long id){
+		
+		HashMap<String, Object> res = new HashMap();
+		
+		
+		MascotaShowDTO mascota = mascotaService.recuperarShow(id);
+		
+		if (mascota == null) {
+			res.put("mascota", null);
+			return new ResponseEntity<Map<String, Object>>(res, HttpStatus.NO_CONTENT);
+		}
+		
+		res.put("mascota", mascota);
+		
+		return new ResponseEntity<Map<String, Object>>(res, HttpStatus.OK);
+		
+	}
+	
 	
 	@GetMapping("/{rol}/{usuario}")
 	public ResponseEntity<Map<String, Object>> recuperarPorDuenio( @PathVariable("usuario") Long usuario, @PathVariable("rol") String rol){
@@ -99,9 +120,37 @@ public class MascotaController {
 		
 		res.put("mascota", mascotaNueva);
 		return new ResponseEntity<Map<String, Object>>(res, HttpStatus.OK);
-		
-		
 	}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<Map<String, Object>> actualizarMascota(@PathVariable Long id, @RequestBody MascotaDTO mascota){
+		HashMap<String, Object> res = new HashMap();
+				
+		MascotaDTO mascotaActualizada = this.mascotaService.actualizarMascota(mascota);
+		
+		if (mascotaActualizada == null) {
+			return new ResponseEntity<Map<String, Object>>(res, HttpStatus.BAD_REQUEST);
+		}
+		
+		res.put("mascota", mascotaActualizada);
+		return new ResponseEntity<Map<String, Object>>(res, HttpStatus.OK);
+	}
+	
+	
+	@PutMapping("/cambiar-veterinario/{id_mascota}/{id_veterinario}")
+	public ResponseEntity<Map<String, Object>> cambiarVeterinario(@PathVariable Long id_mascota, @PathVariable Long id_veterinario){
+		HashMap<String, Object> res = new HashMap();
+				
+		MascotaDTO mascotaActualizada = this.mascotaService.cambiarVeterinario(id_mascota, id_veterinario);
+		
+		if (mascotaActualizada == null) {
+			return new ResponseEntity<Map<String, Object>>(res, HttpStatus.BAD_REQUEST);
+		}
+		
+		res.put("mascota", mascotaActualizada);
+		return new ResponseEntity<Map<String, Object>>(res, HttpStatus.OK);
+	}
+	
 	
 	@DeleteMapping("/{mascota}/duenio/{duenio}")
 	public ResponseEntity<Map<String, Object>> borrarMascotaDuenio( @PathVariable("mascota") Long id, @PathVariable("duenio") Long duenio){

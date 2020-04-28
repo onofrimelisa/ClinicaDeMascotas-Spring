@@ -133,7 +133,7 @@ public class MascotaService {
 		duenio.agregarMascota(nuevaMascota);
 		
 //		si la linea de abajo se descomenta, la mascota se agrega dos veces
-//		duenio = this.usuarioDAO.actualizar(duenio);
+		duenio = this.usuarioDAO.actualizar(duenio);
 			
 //		seteo el nuevo id
 		mascota.setId(nuevaMascota.getId());
